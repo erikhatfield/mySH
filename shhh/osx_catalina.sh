@@ -30,9 +30,15 @@ sudo pmset -a standbydelay 34000
 # Never go into computer sleep mode
 sudo systemsetup -setcomputersleep Off > /dev/null
 
+# Power button behavior
+defaults write com.apple.loginwindow PowerButtonSleepsSystem -bool NO
+
 # Set clock to 24 hour format
 defaults write com.apple.menuextra.clock DateFormat -string 'EEE MMM d  H:mm'
 defaults write NSGlobalDomain AppleICUForce24HourTime -int 1
+
+# Flash the : in the menu bar
+defaults write com.apple.menuextra.clock FlashDateSeparators -bool false
 
 # date string formats
 defaults write NSGlobalDomain AppleICUDateFormatStrings -dict-add "1" "MMddyy"
@@ -52,11 +58,15 @@ defaults write com.apple.systempreferences AppleIntlCustomFormat -dict-add "Appl
 # Disable Notification Center and remove the menu bar icon
 launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null
 
+# Show Battery Percentage
+defaults write com.apple.menuextra.battery ShowPercent -bool true
 
-#defaults read com.apple.systemuiserver 
-#defaults read com.apple.notificationcenterui   
+#defaults read com.apple.systemuiserver
+#defaults read com.apple.notificationcenterui
 #defaults write com.apple.TextInputMenuAgent "NSStatusItem Visible Item-0" -int 1
-defaults write com.apple.TextInputMenu visible -int 1
+###defaults write com.apple.TextInputMenu visible -int 1
+# Show language menu in the top right corner of the boot screen
+sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true
 
 
 # Save to disk (not to iCloud) by default
@@ -68,6 +78,8 @@ defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
 # Disable auto-correct
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
+# Disable auto period insert
+defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
 
 ###############################################################################
 # Visual Proofs                                                               #
@@ -76,10 +88,22 @@ defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 # Set highlight color to custom
 defaults write NSGlobalDomain AppleHighlightColor -string " 0.345 0.555 0.777"
 
+# Show item info near icons on the desktop and in other icon views
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
+
+# Increase the size of icons on the desktop and in other icon views
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:iconSize 64" ~/Library/Preferences/com.apple.finder.plist
+
+# Show item info to the right of the icons on the desktop
+/usr/libexec/PlistBuddy -c "Set DesktopViewSettings:IconViewSettings:labelOnBottom false" ~/Library/Preferences/com.apple.finder.plist
+
 
 ###############################################################################
 # Screen                                                                      #
 ###############################################################################
+
+# Disable auto-adjust brightness
+sudo defaults write /Library/Preferences/com.apple.iokit.AmbientLightSensor.plist "Automatic Display Enabled" -bool false
 
 # Save screenshots to the desktop screenshot folder
 mkdir ~/Desktop/Screenshøts
@@ -131,8 +155,41 @@ defaults write NSGlobalDomain com.apple.springing.enabled -bool true
 # Disable the warning before emptying the Trash
 defaults write com.apple.finder WarnOnEmptyTrash -bool false
 
+# Expand the following File Info panes:
+# “General”, “Open with”, and “Sharing & Permissions”
+defaults write com.apple.finder FXInfoPanesExpanded -dict \
+	General -bool true \
+	OpenWith -bool true \
+	Privileges -bool true
+
+# Should remove downloaded from the internet warnings
+defaults write com.apple.LaunchServices LSQuarantine -bool false
+
+# Don't use tabs in Finder
+defaults write com.apple.finder AppleWindowTabbingMode -string "manual"
+
 # Show the ~/Library folder
 chflags nohidden ~/Library
+
+# Use column view in all Finder windows by default
+# Four-letter codes for the other view modes: 'icnv', 'clmv', 'Flwv', 'Nlsv'
+defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
+
+# Allow text selection in QuickLook
+defaults write com.apple.finder QLEnableTextSelection -bool true
+
+# Disable all actions when inserting disks
+defaults write com.apple.digihub com.apple.digihub.blank.bd.appeared -dict-add action -int 1
+defaults write com.apple.digihub com.apple.digihub.blank.cd.appeared -dict-add action -int 1
+defaults write com.apple.digihub com.apple.digihub.blank.dvd.appeared -dict-add action -int 1
+defaults write com.apple.digihub com.apple.digihub.cd.music.appeared -dict-add action -int 1
+defaults write com.apple.digihub com.apple.digihub.dvcamera.IIDC.appeared -dict-add action -int 1
+defaults write com.apple.digihub com.apple.digihub.dvcamera.IIDC.irisopened -dict-add action -int 1
+defaults write com.apple.digihub com.apple.digihub.dvd.video.appeared -dict-add action -int 1
+
+# Finally disable opening random Apple photo applications when plugging in devices
+# https://twitter.com/stroughtonsmith/status/651854070496534528
+defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 
 
 ###############################################################################
@@ -225,7 +282,7 @@ defaults write com.apple.terminal 'Startup Window Settings' -string "Homebrew";
 
 # Enable Secure Keyboard Entry in Terminal.app
 # See: https://security.stackexchange.com/a/47786/8918
-###defaults write com.apple.terminal SecureKeyboardEntry -bool true
+defaults write com.apple.terminal SecureKeyboardEntry -bool true
 
 ###############################################################################
 # Time Machine                                                                #
