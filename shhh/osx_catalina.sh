@@ -238,7 +238,7 @@ defaults write com.apple.Safari NewWindowBehavior -int 1
 mkdir ~/Downloads/safari
 defaults write com.apple.Safari DownloadsPath -string "~/Downloads/safari"
 
-# Prevent Safari from opening ‘safe’ files automatically after downloading
+# Prevent Safari from opening files automatically after downloading
 defaults write com.apple.Safari AutoOpenSafeDownloads -bool false
 
 # Hide Safari’s sidebar in Top Sites
@@ -268,6 +268,16 @@ defaults write com.apple.Safari AutoFillMiscellaneousForms -bool false
 
 # do not update extensions automatically
 defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool false
+
+# do not make network call from address bar
+defaults write com.apple.Safari PreloadTopHit -bool false
+
+# do not allow push notifications prompt
+defaults write com.apple.Safari CanPromptForPushNotifications -bool false
+
+# check for world leaks on all builds, prevents falling asleep at the wheel
+defaults write com.apple.Safari WorldLeakCheckingPolicy -int 2
+
 
 ###############################################################################
 # Terminal                                                                    #
