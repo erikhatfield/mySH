@@ -106,8 +106,8 @@ defaults write NSGlobalDomain AppleHighlightColor -string " 0.345 0.555 0.777"
 sudo defaults write /Library/Preferences/com.apple.iokit.AmbientLightSensor.plist "Automatic Display Enabled" -bool false
 
 # Save screenshots to the desktop screenshot folder
-mkdir ~/Desktop/Screenshøts
-defaults write com.apple.screencapture location -string "${HOME}/Desktop/Screenshøts"
+mkdir ~/Desktop/Screensh0ts
+defaults write com.apple.screencapture location -string "${HOME}/Desktop/Screensh0ts"
 
 # Save screenshots in JPG format (other options: BMP, GIF, PNG, PDF, TIFF)
 defaults write com.apple.screencapture type -string "JPG"
@@ -152,6 +152,9 @@ defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 # Enable spring loading for directories
 defaults write NSGlobalDomain com.apple.springing.enabled -bool true
 
+# Change the spring loading delay for directories (default is 0.5)
+defaults write NSGlobalDomain com.apple.springing.delay -float 0.25
+
 # Disable the warning before emptying the Trash
 defaults write com.apple.finder WarnOnEmptyTrash -bool false
 
@@ -190,7 +193,6 @@ defaults write com.apple.digihub com.apple.digihub.dvd.video.appeared -dict-add 
 # Finally disable opening random Apple photo applications when plugging in devices
 # https://twitter.com/stroughtonsmith/status/651854070496534528
 defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
-
 
 ###############################################################################
 # Dock, Dashboard, and hot corners                                            #
@@ -278,6 +280,14 @@ defaults write com.apple.Safari CanPromptForPushNotifications -bool false
 # check for world leaks on all builds, prevents falling asleep at the wheel
 defaults write com.apple.Safari WorldLeakCheckingPolicy -int 2
 
+# set homepage to blank page
+defaults write com.apple.Safari HomePage -string "about:blank"
+
+# set Remove download list items to manual
+defaults write com.apple.Safari DownloadsClearingPolicy -bool false
+
+# set default selection for Clear History... menu item
+defaults write com.apple.Safari ClearBrowsingDataLastIntervalUsed -string "all history";
 
 ###############################################################################
 # Terminal                                                                    #
