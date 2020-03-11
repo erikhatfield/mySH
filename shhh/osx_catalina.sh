@@ -236,9 +236,11 @@ defaults write com.apple.Safari HomePage -string "about:blank"
 defaults write com.apple.Safari NewTabBehavior -int 1
 defaults write com.apple.Safari NewWindowBehavior -int 1
 
-# Set downloads path to "~/Downloads/safari"
+# Set downloads path to "~/Downloads/safari" as default
 mkdir ~/Downloads/safari
 defaults write com.apple.Safari DownloadsPath -string "~/Downloads/safari"
+# Then ask for specfic download local
+defaults write com.apple.Safari AlwaysPromptForDownloadFolder -bool true
 
 # Prevent Safari from opening files automatically after downloading
 defaults write com.apple.Safari AutoOpenSafeDownloads -bool false
@@ -287,8 +289,18 @@ defaults write com.apple.Safari HomePage -string "about:blank"
 defaults write com.apple.Safari DownloadsClearingPolicy -bool false
 
 # set default selection for Clear History... menu item
-defaults write com.apple.Safari ClearBrowsingDataLastIntervalUsed -string "all history";
+defaults write com.apple.Safari ClearBrowsingDataLastIntervalUsed -string "all history"
 
+# set default search engine to duckduckgo
+defaults write com.apple.Safari SearchProviderIdentifier -string "com.duckduckgo"
+
+# do not ref favs
+defaults write com.apple.Safari ShowFavoritesUnderSmartSearchField -bool false
+
+#was ist das --> DefaultBrowserPromptingState2 = 4;
+
+#turn apple pay Off
+#smart search field -> disable quick website search
 ###############################################################################
 # Terminal                                                                    #
 ###############################################################################
