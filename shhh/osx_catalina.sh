@@ -45,7 +45,8 @@ do
 
       break;;
 
-   [nN]* ) exit;;
+   [nN]* ) echo "no name being set then... " #exit;;
+      break;;
 
    * )     echo "Y or N input required, good sir."; break ;;
   esac
