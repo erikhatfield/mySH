@@ -21,6 +21,37 @@ sudo cp ~/.dotfiles/etc/hosts /etc/hosts
 
 
 ###############################################################################
+# Set Computer Name                                                           #
+###############################################################################
+# (1) prompt user, and read command line argument
+read -p "Set a computer name? " answer
+
+# (2) handle the command line argument we were given
+while true
+do
+  case $answer in
+   [yY]* ) echo "Setting... waht to set..."
+
+      # Ask the user for their name
+      echo Please type in a string without spaces to be your computer name
+      read varname
+      echo Your computer will use the name $varname
+
+			# Set computer name (as done via System Preferences → Sharing)
+			sudo scutil --set ComputerName $varname
+			sudo scutil --set HostName $varname".local"
+			sudo scutil --set LocalHostName $varname
+			sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $varname
+
+      break;;
+
+   [nN]* ) exit;;
+
+   * )     echo "Y or N input required, good sir."; break ;;
+  esac
+done
+
+###############################################################################
 # Basics                                                                      #
 ###############################################################################
 
