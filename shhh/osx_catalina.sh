@@ -217,7 +217,6 @@ defaults write com.apple.dock orientation -string "left"
 defaults write com.apple.dock wvous-br-corner -int 4
 defaults write com.apple.dock wvous-br-modifier -int 0
 
-
 ###############################################################################
 # Safari & WebKit                                                             #
 ###############################################################################
