@@ -121,8 +121,11 @@ defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 # Visual Proofs                                                               #
 ###############################################################################
 
-# Set highlight color to custom
-defaults write NSGlobalDomain AppleHighlightColor -string " 0.345 0.555 0.777"
+# Set highlight color to green?
+defaults write NSGlobalDomain AppleHighlightColor -string "0.7777 0.8888 0.5555"
+
+# Set sidebar icon size to medium
+defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
 
 # Show item info near icons on the desktop and in other icon views
 /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
@@ -205,7 +208,7 @@ defaults write com.apple.finder FXInfoPanesExpanded -dict \
 	OpenWith -bool true \
 	Privileges -bool true
 
-# Should remove downloaded from the internet warnings
+# Disable the “Are you sure you want to open this application?” dialog
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 
 # Don't use tabs in Finder
@@ -300,8 +303,8 @@ defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebK
 
 # Enable continuous spellchecking
 ##defaults write com.apple.Safari WebContinuousSpellCheckingEnabled -bool true
-# Disable auto-correct
-##defaults write com.apple.Safari WebAutomaticSpellingCorrectionEnabled -bool false
+# Disable auto-correct within Safari
+defaults write com.apple.Safari WebAutomaticSpellingCorrectionEnabled -bool false
 
 # Disable AutoFill
 defaults write com.apple.Safari AutoFillFromAddressBook -bool false
