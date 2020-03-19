@@ -10,7 +10,7 @@ sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 #store username in variable for dynamicness. $id -un <=> $whoami
-whoamilol="$(id -un)"
+#whoamilol="$(id -un)"
 
 ###############################################################################
 # Security                                                                    #
