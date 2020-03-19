@@ -17,7 +17,7 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 ###############################################################################
 
 ## hosts (assumes you are within encryption of dots drive
-sudo cp ~/.dotfiles/etc/hosts /etc/hosts
+sudo cp $HOME/.dotfiles/etc/hosts /etc/hosts
 
 
 ###############################################################################
@@ -128,18 +128,18 @@ defaults write NSGlobalDomain AppleHighlightColor -string "0.7777 0.8888 0.5555"
 defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
 
 # Show item info near icons on the desktop and in other icon views
-/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" $HOME/Library/Preferences/com.apple.finder.plist
 
 # Increase the size of icons on the desktop and in other icon views
-/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:iconSize 64" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:iconSize 64" $HOME/Library/Preferences/com.apple.finder.plist
 
 # Show item info to the right of the icons on the desktop
-/usr/libexec/PlistBuddy -c "Set DesktopViewSettings:IconViewSettings:labelOnBottom false" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set DesktopViewSettings:IconViewSettings:labelOnBottom false" $HOME/Library/Preferences/com.apple.finder.plist
 
 # Increase grid spacing for icons on the desktop and in other icon views
-/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 100" $HOME/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 100" $HOME/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 100" $HOME/Library/Preferences/com.apple.finder.plist
 
 ###############################################################################
 # Screen                                                                      #
@@ -149,7 +149,7 @@ defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
 sudo defaults write /Library/Preferences/com.apple.iokit.AmbientLightSensor.plist "Automatic Display Enabled" -bool false
 
 # Save screenshots to the desktop screenshot folder
-mkdir ~/Desktop/Screensh0ts
+mkdir $HOME/Desktop/Screensh0ts
 defaults write com.apple.screencapture location -string "${HOME}/Desktop/Screensh0ts"
 
 # Save screenshots in JPG format (other options: BMP, GIF, PNG, PDF, TIFF)
@@ -214,8 +214,8 @@ defaults write com.apple.LaunchServices LSQuarantine -bool false
 # Don't use tabs in Finder
 defaults write com.apple.finder AppleWindowTabbingMode -string "manual"
 
-# Show the ~/Library folder
-chflags nohidden ~/Library
+# Show the $HOME/Library folder
+chflags nohidden $HOME/Library
 
 # Use column view in all Finder windows by default
 # Four-letter codes for the other view modes: 'icnv', 'clmv', 'Flwv', 'Nlsv'
@@ -278,9 +278,9 @@ defaults write com.apple.Safari HomePage -string "about:blank"
 defaults write com.apple.Safari NewTabBehavior -int 1
 defaults write com.apple.Safari NewWindowBehavior -int 1
 
-# Set downloads path to "~/Downloads/safari" as default
-mkdir ~/Downloads/safari
-defaults write com.apple.Safari DownloadsPath -string "~/Downloads/safari"
+# Set downloads path to "$HOME/Downloads/safari" as default
+mkdir $HOME/Downloads/safari
+defaults write com.apple.Safari DownloadsPath -string "$HOME/Downloads/safari"
 # Then ask for specfic download local
 defaults write com.apple.Safari AlwaysPromptForDownloadFolder -bool true
 
@@ -422,9 +422,9 @@ defaults write com.apple.ActivityMonitor SortDirection -int 0
 if [ ! -d "/Applications/Atom.app" ]; then
 	osascript -e 'display dialog "Adding Atom to /Applications" buttons {"I see"} default button 1'
 
-	unzip ~/.dotfiles/dmgs/atom-mac.zip -d ~/.dotfiles/atomunzipped
-	mv  ~/.dotfiles/atomunzipped/Atom.app  /Applications/Atom.app
-	rm -rf ~/.dotfiles/atomunzipped
+	unzip $HOME/.dotfiles/dmgs/atom-mac.zip -d $HOME/.dotfiles/atomunzipped
+	mv  $HOME/.dotfiles/atomunzipped/Atom.app  /Applications/Atom.app
+	rm -rf $HOME/.dotfiles/atomunzipped
 
 fi
 ##END if Atom
@@ -447,105 +447,105 @@ do
       # ls -a /System/Library/Compositions
       # Copy this list of files from /System to Squiggly/ (current user's directory)
 
-      cp /System/Library/Compositions/Color\ Invert.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Exposure\ Adjust.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Kaleidescope.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Pointillize.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Twirl.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/ColorPencil.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Fall.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/LightTunnel.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/PopArt.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/User\ Backdrop\ 1.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/ComicBook.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/False\ Color.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Line\ Overlay.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Posterize.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/User\ Backdrop\ 2.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Compound\ Eye.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Film\ Stock.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Line\ Screen.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Push.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/User\ Backdrop\ 3.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/ASCII\ Art.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Concert.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Fish.mov ~/Library/Compositions/
-      cp /System/Library/Compositions/Lovestruck.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Rollercoaster.mov ~/Library/Compositions/
-      cp /System/Library/Compositions/User\ Backdrop\ 4.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/BlackAndWhite.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Copy\ Machine.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Fish.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Mask.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Rollercoaster.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/User\ Backdrop\ 5.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Blockhead.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Crystallize.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/FishEye.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Mirror.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Sepia.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/User\ Backdrop\ 6.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Blue\ Print.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Cube.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Flip-Flop.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Mod.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Sharpen.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/User\ Backdrop\ 7.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Blur.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Floor.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Monochrome.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Space\ Alien.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/User\ Backdrop\ 8.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Bug\ Out.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Defocus.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Frog.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Mosaic\ Flip.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Squeeze.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Wall.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Bulge.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Dent.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Gamma\ Adjust.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Motion\ Blur.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Stretch.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/XRay.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Chipmunk.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Dissolve.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Glow.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Moving\ Shapes.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Sunset.mov ~/Library/Compositions/
-      cp /System/Library/Compositions/Yosemite.mov ~/Library/Compositions/
-      cp /System/Library/Compositions/City\ Lights.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Dizzy.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Gradient.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Neon.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Sunset.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Yosemite.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/CloakingDevice.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Dot\ Screen.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Grid.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Nose\ Twirl.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Swing.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Zoom\ Blur.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Clouds.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Earthrise.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Hologram.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Pinch.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/ThermalCamera.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Zoom\ Dissolve.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Color\ Controls.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Eiffel\ Tower.mov ~/Library/Compositions/
-      cp /System/Library/Compositions/Image\ Hose.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Pixellate.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Tracer.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Color\ Dots.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Eiffel\ Tower.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Image\ Resizer.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/PlasticCamera.qtz ~/Library/Compositions/
-      cp /System/Library/Compositions/Travelator.qtz ~/Library/Compositions/
+      cp /System/Library/Compositions/Color\ Invert.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Exposure\ Adjust.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Kaleidescope.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Pointillize.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Twirl.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/ColorPencil.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Fall.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/LightTunnel.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/PopArt.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/User\ Backdrop\ 1.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/ComicBook.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/False\ Color.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Line\ Overlay.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Posterize.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/User\ Backdrop\ 2.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Compound\ Eye.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Film\ Stock.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Line\ Screen.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Push.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/User\ Backdrop\ 3.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/ASCII\ Art.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Concert.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Fish.mov $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Lovestruck.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Rollercoaster.mov $HOME/Library/Compositions/
+      cp /System/Library/Compositions/User\ Backdrop\ 4.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/BlackAndWhite.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Copy\ Machine.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Fish.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Mask.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Rollercoaster.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/User\ Backdrop\ 5.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Blockhead.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Crystallize.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/FishEye.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Mirror.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Sepia.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/User\ Backdrop\ 6.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Blue\ Print.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Cube.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Flip-Flop.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Mod.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Sharpen.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/User\ Backdrop\ 7.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Blur.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Floor.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Monochrome.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Space\ Alien.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/User\ Backdrop\ 8.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Bug\ Out.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Defocus.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Frog.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Mosaic\ Flip.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Squeeze.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Wall.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Bulge.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Dent.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Gamma\ Adjust.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Motion\ Blur.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Stretch.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/XRay.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Chipmunk.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Dissolve.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Glow.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Moving\ Shapes.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Sunset.mov $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Yosemite.mov $HOME/Library/Compositions/
+      cp /System/Library/Compositions/City\ Lights.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Dizzy.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Gradient.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Neon.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Sunset.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Yosemite.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/CloakingDevice.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Dot\ Screen.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Grid.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Nose\ Twirl.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Swing.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Zoom\ Blur.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Clouds.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Earthrise.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Hologram.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Pinch.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/ThermalCamera.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Zoom\ Dissolve.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Color\ Controls.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Eiffel\ Tower.mov $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Image\ Hose.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Pixellate.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Tracer.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Color\ Dots.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Eiffel\ Tower.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Image\ Resizer.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/PlasticCamera.qtz $HOME/Library/Compositions/
+      cp /System/Library/Compositions/Travelator.qtz $HOME/Library/Compositions/
 
 
-      # Search and replace the string 'PhotoBooth' with 'PhotoSpoof' in files in ~/Library/Compositions using perl
-      cd ~/Library/Compositions
+      # Search and replace the string 'PhotoBooth' with 'PhotoSpoof' in files in $HOME/Library/Compositions using perl
+      cd $HOME/Library/Compositions
       perl -i -pe 's/PhotoBooth/PhotoSpoof/g' ./*
 
 
@@ -588,6 +588,6 @@ kill -SIGHUP SystemUIServer
 
 echo "Done. Note that some of these changes require a logout/restart to take effect."
 
-hdiutil mount ~/.dotfiles/dmgs/ls4/LittleSnitch-4.4.3.dmg
+hdiutil mount $HOME/.dotfiles/dmgs/ls4/LittleSnitch-4.4.3.dmg
 
 exit
