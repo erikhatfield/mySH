@@ -7,7 +7,7 @@
 ## %md5 /path/to/the/file/to/hash.yay
 ##
 ## Run this shell:
-## %./find_hash.sh eg1anmd5h4sh5tr5amp13101lolp00f
+## %./find_hash.sh eg1anmd5h4sh5tr5amp13101lolw00t
 
 FILE_HASH_MD5="${1?input arguement missing - include an md5 file hash string when running this shell.}"
 
