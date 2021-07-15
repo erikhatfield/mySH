@@ -3,7 +3,10 @@
 ###################
 ## Work in progress, code sample dumps 
 ## 
-## w00ttles 
+## w00ttles here works with a pre-compiled list of file hashes of known deleteable files in my vast digital archivials. 
+## for every line in blash-list txt, treat as string and search the dir tree of parametered dir path for files with md5 hash string that matches
+##
+## w00tles can have filter out sprinklettos of screwballium
 
 #howdoyouunderstandmenow
 
