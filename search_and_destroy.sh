@@ -1,4 +1,11 @@
-#understandme
+#!/bin/sh
+
+###################
+## Work in progress, code sample dumps 
+## 
+## w00ttles 
+
+#howdoyouunderstandmenow
 
 #dry#find . -type f -exec md5sum {} + | awk '$1 == "eg1anmd5h4sh5tr5amp13101lolw00t" {printf "%s\0", substr($0, 35)}' | xargs -r0 -n1
 #wet#find . -type f -exec md5sum {} + | awk '$1 == "eg1anmd5h4sh5tr5amp13101lolw00t" {printf "%s\0", substr($0, 35)}' | xargs -r0 rm -rf
