@@ -10,5 +10,5 @@ for filepath in "$@"
 do
     echo "$filepath"
 
-    md5 -r "$filepath" >> ~/Desktop/blash-list.txt
+    md5 -q "$filepath" >> ~/Desktop/blash-list.txt
 done
