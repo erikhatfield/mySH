@@ -1,6 +1,20 @@
 #!/bin/sh
 
 ###################
+##
+##bite size chunks
+
+###################
+## find and print the md5 sum of all files in the current directory tree. print out the checksum first, then the file path (as designated by the -r option)
+#find . -type f -exec md5 -r {} +
+
+###################
+## find and print md5 checksums and filepaths of files with matching md5 checksum only (using grep)
+#find . -type f -exec md5 -r {} + | grep "eg1anmd5h4sh5tr5amp13101lolw00t" 
+
+
+
+###################
 ## Work in progress, code sample dumps 
 ## 
 ## w00ttles here works with a pre-compiled list of file hashes of known deleteable files in my vast digital archivials. 
