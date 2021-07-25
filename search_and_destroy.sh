@@ -28,12 +28,13 @@ while read -r line; do
 
       echo "removing file at path: "$filepath4operation
 #DRY
-      ls -l "$filepath4operation"
+#      ls -l "$filepath4operation"
 #WET
-#     rm -rf "$filepath4operation"
+     rm -rf "$filepath4operation"
 
 done < ~/Desktop/blash-list.txt
 
+## To generate a blash-list.txt
 ## Use:
 #% md5 -q "/file/path/string.ok" >> ~/Desktop/blash-list.txt
 ## or:
