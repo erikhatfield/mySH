@@ -26,7 +26,13 @@ while read -r line; do
       #printf %s "$line" | find . -type f -exec md5 -r {} + | grep "$line" | cut -d ' ' -f2- ;
       filepath4operation=$(printf "%s" "$line" | find . -type f -exec md5 -r {} + | grep "$line" | cut -d ' ' -f2- )
 
-      echo "removing file at path: "$filepath4operation
+      if [ -z "$filepath4operation" ]
+      then
+          #echo "\$filepath4operation is empty"
+          echo "No files with matching checksum were found. MD5=""$line"
+      else
+          echo "Removing file at path: "$filepath4operation
+      fi
 #DRY
 #      ls -l "$filepath4operation"
 #WET
