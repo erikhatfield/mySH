@@ -38,10 +38,10 @@ home_path="$HOME"
 ###############################################################################
 
   # Make directories for backups
-  mkdir -pv "$home_path/Dev/baks/"
+  mkdir -p "$home_path/Dev/baks/"
 
   # backup everything (with timestamps)
-  sudo cp -RPpv "/etc/apache2" "$home_path/Dev/baks/etc-apache2_"$(date +'%m%d%y')"-"$(date +'%H%M')
+  sudo cp -RPp "/etc/apache2" "$home_path/Dev/baks/etc-apache2_"$(date +'%m%d%y')"-"$(date +'%H%M')
 
         ###switch to the root user to avoid permission issues:??
 
@@ -63,28 +63,29 @@ home_path="$HOME"
   sleep 3
 
   #create apache user for localhost
-  touch $home_path/$who_i_is.conf
-  echo '<Directory "/Users/'$who_i_is'/Sites/www">' >> $home_path/$who_i_is.conf
-  echo 'AllowOverride All' >> $home_path/$who_i_is.conf
-  echo 'Options Indexes MultiViews FollowSymLinks' >> $home_path/$who_i_is.conf
-  echo 'Require host localhost' >> $home_path/$who_i_is.conf
-  echo '</Directory>' >> $home_path/$who_i_is.conf
+  #### WHY WHAT
+  ##touch $home_path/$who_i_is.conf
+  ##echo '<Directory "/Users/'$who_i_is'/Sites/www/'$who_i_is'">' >> $home_path/$who_i_is.conf
+  ##echo 'AllowOverride All' >> $home_path/$who_i_is.conf
+  ##echo 'Options Indexes MultiViews FollowSymLinks' >> $home_path/$who_i_is.conf
+  ##echo 'Require host localhost' >> $home_path/$who_i_is.conf
+  ##echo '</Directory>' >> $home_path/$who_i_is.conf
 
-  if ! cat /etc/apache2/users/$who_i_is.conf 2>/dev/null
-      then
-          # If this file doesnt exist, make it exist
-          # Move the newly created file and set permissions
-          sudo mv $home_path/$who_i_is.conf /etc/apache2/users/$who_i_is.conf
-          sudo chmod 644 /etc/apache2/users/$who_i_is.conf
-      else
-          echo "The file @ /etc/apache2/users/$who_i_is.conf exists already"
-          #View it's contents
-          cat /etc/apache2/users/$who_i_is.conf
-
-          #View file permissions
-          stat -f %A /etc/apache2/users/$who_i_is.conf
-          sleep 1
-  fi
+  ##if ! cat /etc/apache2/users/$who_i_is.conf 2>/dev/null
+  ##    then
+  ##        # If this file doesnt exist, make it exist
+  ##        # Move the newly created file and set permissions
+  ##        sudo mv $home_path/$who_i_is.conf /etc/apache2/users/$who_i_is.conf
+  ##        sudo chmod 644 /etc/apache2/users/$who_i_is.conf
+  ##    else
+  ##        echo "The file @ /etc/apache2/users/$who_i_is.conf exists already"
+  ##        #View it's contents
+  ##        cat /etc/apache2/users/$who_i_is.conf
+  ##
+  ##        #View file permissions
+  ##        stat -f %A /etc/apache2/users/$who_i_is.conf
+  ##        sleep 1
+  ##fi
 
         # Search and replace string 'foo' with 'bar' in file/at/path
         #sed -i -- 's/foo/bar/g' /file/path/of.file
@@ -131,24 +132,25 @@ home_path="$HOME"
   # Create V Host directory
   sudo mkdir /etc/apache2/vhosts
 
-  # Create Default conf
-  touch $home_path/_default.conf
-  echo '<VirtualHost *:80>' >> $home_path/_default.conf
-  echo '    DocumentRoot "/Library/WebServer/Documents"' >> $home_path/_default.conf
-  echo '</VirtualHost>' >> $home_path/_default.conf
+  # Create Default conf to keep http://localhost working
+  touch $home_path/default.conf
+  echo '<VirtualHost *:80>' >> $home_path/default.conf
+  echo '    ServerName localhost' >> $home_path/default.conf
+  echo '    DocumentRoot "/Library/WebServer/Documents"' >> $home_path/default.conf
+  echo '</VirtualHost>' >> $home_path/default.conf
 
-  if ! cat /etc/apache2/users/$who_i_is.conf 2>/dev/null
+  if ! cat /etc/apache2/vhosts/default.conf 2>/dev/null
       then
         # If this file doesnt exist, make it exist
         # Move the newly created file and set permissions
-        sudo mv $home_path/_default.conf /etc/apache2/vhosts/_default.conf
-        sudo chmod 644 /etc/apache2/vhosts/_default.conf
+        sudo mv $home_path/default.conf /etc/apache2/vhosts/default.conf
+        sudo chmod 644 /etc/apache2/vhosts/default.conf
       else
-        echo "The file @ /etc/apache2/vhosts/_default.conf exists already"
+        echo "The file @ /etc/apache2/vhosts/default.conf exists already"
         #remove stray
-        sudo rm -rf $home_path/_default.conf
+        #sudo rm -rf $home_path/default.conf
         #View file permissions
-        stat -f %A /etc/apache2/vhosts/_default.conf
+        stat -f %A /etc/apache2/vhosts/default.conf
         sleep 1
   fi
 
@@ -177,7 +179,7 @@ home_path="$HOME"
         cat /etc/apache2/vhosts/$who_i_is.conf
         sleep 1
         #remove stray
-        sudo rm -rf $home_path/$who_i_is.conf
+        #sudo rm -rf $home_path/$who_i_is.conf
         #View file permissions
         stat -f %A /etc/apache2/vhosts/$who_i_is.conf
         sleep 1
@@ -186,8 +188,8 @@ home_path="$HOME"
 
 
   #make dir @ $home_path/Sites
-  mkdir -vp $home_path/Sites/$who_i_is/www
-  mkdir -vp $home_path/Sites/$who_i_is/logs
+  mkdir -p $home_path/Sites/$who_i_is/www
+  mkdir -p $home_path/Sites/$who_i_is/logs
 
   sudo chmod 755 $home_path/Sites
   sudo chmod 755 $home_path/Sites/$who_i_is
@@ -213,13 +215,15 @@ home_path="$HOME"
   # flush host file
   dscacheutil -flushcache
   sudo dscacheutil -flushcache
-  sleep 6
+  sleep 7
 
   # Restart apache
   sudo apachectl restart
-  sleep 5
+  sleep 6
 
-  # And open a test window
+  # And open test windows
+  open 'http://localhost/'
+  sleep 5
   open 'http://'$who_i_is'.local/'
   sleep 4
   sudo echo '<?php phpinfo();' > $home_path/Sites/$who_i_is/www/phpinfo.php
