@@ -10,6 +10,13 @@
 echo 'in the current directory "." find and print all filepaths that are of type f (file) and have a filename that ends with ".blend"' && sleep 1
 find . -name "*.blend" -type f  -print
 
+## create a temp dir on the Desktop, using today's date
+date_temp_dir=$(date +"%m%d%y")
+mkdir "~/Desktop/temp"$date_temp_dir
+
+## save output to file named with the current hour hh and minutes mm
+date_temp_file=$(date +"%H%M")
+find . -name "*.blend" -type f  -print >> "~/Desktop/temp"$date_temp_dir"cpthese_"$date_temp_file".txt"
 
 ###################
 ############################################################################
