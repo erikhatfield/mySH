@@ -30,7 +30,7 @@ SEARCH_FILEPATH="${2:-.}"  # If arguement $2 not provided, set it to the current
 ##find . -name "*.blend" -type f  -print
 
 ###################
-echo 'in the directory '$SEARCH_FILEPATH' find and print all filepaths that are of type f (file) and have a filename with the pattern "'$SEARCH_STRING'"' && sleep 1
+echo 'in the directory '$SEARCH_FILEPATH' find and print all filepaths that are of type f (file) and have a filename with the pattern "'$SEARCH_STRING'"' && sleep 1 && echo '' && echo 'in progress...'
 find "$SEARCH_FILEPATH" -name "$SEARCH_STRING" -type f  -print
 echo '' && echo '' && sleep 1
 ###################
