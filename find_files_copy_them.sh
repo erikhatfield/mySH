@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 ###################
 ## Find all files in /the/path/provided/ that contain the 'somestring' in their filenames.
@@ -12,7 +12,7 @@
 # if no arguements provided, use defaults
 # defaults:  SEARCH_STRING = "*.blend"; SEARCH_FILEPATH = current dir ".";
 SEARCH_STRING="${1:=*.blend}"
-SEARCH_FILEPATH="${2:=.}"  # If arguement $1 not provided, set it to the current dir "."
+SEARCH_FILEPATH="${2:=.}"  # If arguement $2 not provided, set it to the current dir "."
 
 ###################
 #### Early Dev Test
