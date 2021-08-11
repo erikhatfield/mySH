@@ -2,9 +2,12 @@
 
 ###################
 ## Find all files in /the/path/provided/ that contain the 'somestring' in their filenames.
-## Copy them to the /second/path/provided/
+## Copy them to the /second/path/temp4now
 ## If they have duplicate file names, do not overwrite (default unix behaviour?)
-##
+## 
+## Run Instructions: 2 arguements passed in to script as such:
+## arguement $1: file/path/to/start/search/
+## arguement $2: "*search.string" with any *wildcards* included
 
 ###################
 echo 'in the current directory "." find and print all filepaths that are of type f (file) and have a filename that ends with ".blend"' && sleep 1
