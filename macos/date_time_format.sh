@@ -11,7 +11,7 @@ sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 ###############################################################################
-# Date, time, and formats                 		                                #
+# Date, time, and formats                 		                      #
 ###############################################################################
 
 # Set clock to 24 hour format
@@ -56,4 +56,4 @@ for app in "Activity Monitor" \
 	"SystemUIServer"; do
 	killall "${app}" &> /dev/null
 done
-echo "Done. Note that some of these changes require a logout/restart to take effect."
+echo "Date Time Formats conclusion."
