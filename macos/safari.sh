@@ -33,8 +33,7 @@ defaults write com.apple.Safari NewTabBehavior -int 1
 defaults write com.apple.Safari NewWindowBehavior -int 1
 
 # Set downloads path to "~/Downloads/safari"
-####### create safari downloads dir? mkdir ~/Downloads/safari if does not exiust??
-mkdir ~/Downloads/safari
+mkdir -p ~/Downloads/safari
 defaults write com.apple.Safari DownloadsPath -string "~/Downloads/safari"
 
 # Disable extensions
@@ -84,7 +83,7 @@ defaults write com.apple.Safari AutoFillCreditCardData -bool false
 defaults write com.apple.Safari AutoFillMiscellaneousForms -bool false
 
 # Warn about fraudulent websites
-##defaults write com.apple.Safari WarnAboutFraudulentWebsites -bool true
+defaults write com.apple.Safari WarnAboutFraudulentWebsites -bool false
 
 # Disable plug-ins
 defaults write com.apple.Safari WebKitPluginsEnabled -bool false
