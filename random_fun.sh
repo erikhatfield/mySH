@@ -36,6 +36,7 @@ done
 echo
 
 # OTHERWAYS FOR FUTURE ME
+# https://www.cyberciti.biz/faq/bash-shell-script-generating-random-numbers/
 #$ shuf -i 1-100000 -n 1 #shuf is available in coreutils
 #$ dd if=/dev/urandom count=4 bs=1 | od -t d
 #$ od -A n -t d -N 1 /dev/urandom
