@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# $RANDOM is an internal Bash function (not a constant) that returns a pseudorandom integer in the range 0 - 32767.
+# 32767 is 2^16 / 2 - 1 which is the upper limit for a signed 16 bit integer.
+
 # generate random number and store in variable
 rand=$RANDOM
 echo "random number generated: "$rand
@@ -29,6 +32,30 @@ for ((i=1; i<=$((3 + RANDOM % 7)); i++))
   do
     echo $i") "$((25 + RANDOM % 325))
 done
+
+echo
+
+# OTHERWAYS FOR FUTURE ME
+#$ shuf -i 1-100000 -n 1 #shuf is available in coreutils
+#$ dd if=/dev/urandom count=4 bs=1 | od -t d
+#$ od -A n -t d -N 1 /dev/urandom
+#same as above, removes spaces:
+#$ od -A n -t d -N 1 /dev/urandom |tr -d ' '
+
+# awk
+echo "AWK:"
+awk 'BEGIN {
+   # seed
+   srand()
+   for (i=1;i<=10;i++){
+     print int(1 + rand() * 100)
+   }
+}'
+
+# The below way results in bias towards numbers starting with 1, 2, or 3:
+echo ${RANDOM:0:1} # random number between 1 and 9
+echo ${RANDOM:0:2} # random number between 1 and 99
+echo
 
 #############################################################
 ## RANDOM_NOTE2SELF: how to spell the word 'environment'   ##
