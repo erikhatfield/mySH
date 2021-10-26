@@ -53,6 +53,7 @@ awk 'BEGIN {
 }'
 
 # The below way results in bias towards numbers starting with 1, 2, or 3:
+echo
 echo ${RANDOM:0:1} # random number between 1 and 9
 echo ${RANDOM:0:2} # random number between 1 and 99
 echo
