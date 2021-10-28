@@ -18,5 +18,5 @@ echo "Echoing basic string variable on next line:"
 echo $BASIC_STRING_VARIABLE_WITH_LONG_DESCRIPTOR_TITLE
 echo
 BASIC_STR="Basic string"
-echo $BASIC_STR" variables can be referenced from within/outside quotes, and even inside secondary quotes, e.g. '$BASIC_STR'"
+echo "$BASIC_STR variables can be referenced from within/outside quotes, and inside secondary quotes, e.g. '$BASIC_STR'"
 echo
