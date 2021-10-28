@@ -19,23 +19,12 @@ who_i_is=$(who am i | awk '{print $1}')
 home_path="$HOME"
 
 # (1) prompt user, and read command line argument
-  read -p "Writing with who='$who_i_is', and home_path='$home_path', is this correct sir? " answer
-
-  # (2) handle the command line argument we were given
-  while true
-  do
-    case $answer in
-     [yY]* ) #very well, carry on
-        break;;
-
-     [nN]* ) exit;;
-
-     * )     echo "Y or N input required, good sir."; break ;;
-    esac
-  done
+echo "who='$who_i_is'"
+echo "home_path='$home_path'"
+echo
 
 ###############################################################################
-    # Terminal                                                                #
+# Terminal                                                                    #
 ###############################################################################
 
 # Only use UTF-8 in Terminal.app
