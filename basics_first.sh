@@ -38,5 +38,5 @@ basicFunction "Func Fact: arguments are also called parameters"
 ## Call it again, because yacan                         ##
 basicFunction "Fun, basically... O_o"
 ## And for good measure, call it again, w/o parameters  ##
-basifFunction
+basicFunction
 ##########################################################
