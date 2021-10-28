@@ -20,3 +20,23 @@ echo
 BASIC_STR="Basic string"
 echo "$BASIC_STR variables can be referenced from within/outside quotes, and inside secondary quotes, e.g. '$BASIC_STR'"
 echo
+############################
+##########################################################
+## Basic function syntax (you had me at 'Basic fun'...) ##
+basicFunction()
+{
+    # Arguments passed into the function are the same as arguements passed into dot sh files.
+    local FUNCTION_PARAMETER="$1"
+    # The first arguement at $1 overwrites the first arguement passed into the file (or parent function)
+
+    echo $FUNCTION_PARAMETER
+    echo
+}
+## Q: If you never call the function, does it exist?    ##
+## A: Yes, because the compiler still parses it.        ##
+basicFunction "Func Fact: arguments are also called parameters"
+## Call it again, because yacan                         ##
+basicFunction "Fun, basically... O_o"
+## And for good measure, call it again, w/o parameters  ##
+basifFunction
+##########################################################

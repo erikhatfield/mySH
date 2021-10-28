@@ -30,11 +30,17 @@ echo
 # Only use UTF-8 in Terminal.app
 defaults write com.apple.terminal StringEncodings -array 4
 
-# Set Homebrew as default theme in terminal
-defaults write com.apple.terminal 'Default Window Settings' -string "Hatsbrew";
-defaults write com.apple.terminal 'Startup Window Settings' -string "Hatsbrew";
 
-# Use a modified theme by default in Terminal.app
+#####################################################
+#####################################################
+## Use a modified theme by default in Terminal.app ##
+## Load a dot terminal file as a custom theme      ##
+## BEGIN loadModifiedTerminalTheme(){              ##
+loadModifiedTerminalTheme()
+{
+  local THEME_NAME="$1"
+
+
 osascript <<EOD
 
 tell application "Terminal"
@@ -42,7 +48,7 @@ tell application "Terminal"
 	local allOpenedWindows
 	local initialOpenedWindows
 	local windowID
-	set themeName to "Hatsbrew"
+	set themeName to "$THEME_NAME"
 
 	(* Store the IDs of all the open terminal windows. *)
 	set initialOpenedWindows to id of every window
@@ -80,6 +86,19 @@ tell application "Terminal"
 end tell
 
 EOD
+
+}
+## END loadModifiedTerminalTheme(){                ##
+#####################################################
+#####################################################
+
+
+# Set Homebrew as default theme in terminal
+defaults write com.apple.terminal 'Default Window Settings' -string "Hatsbrew";
+loadModifiedTerminalTheme "Hatsbrew"
+# Set MagicHat as secondary theme (start up theme)
+defaults write com.apple.terminal 'Startup Window Settings' -string "MagicHat";
+loadModifiedTerminalTheme "MagicHat"
 
 # Enable “focus follows mouse” for Terminal.app and all X11 apps
 # i.e. hover over a window and start typing in it without clicking first
