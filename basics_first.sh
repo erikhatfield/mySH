@@ -25,17 +25,17 @@ echo
 ## Basic function syntax (you had me at 'Basic fun'...) ##
 basicFunction()
 {
-    # Arguments passed into the function are the same as arguements passed into dot sh files.
-    local FUNCTION_PARAMETER="$1"
-    # The first arguement at $1 overwrites the first arguement passed into the file (or parent function)
+	# The syntax of arguments passed into a function are the same as arguements passed into dot sh files.
+	local FUNCTION_PARAMETER="$1"
+	# The function's first arguement at $1 overwrites the first arguement passed into the file (or parent function)
 
-    echo $FUNCTION_PARAMETER
-    echo
+	echo $FUNCTION_PARAMETER
+	echo
 }
-## Q: If you never call the function, does it exist?    ##
-## A: Yes, because the compiler still parses it.        ##
+## Q: If you never call the function, does it exist?	##
+## A: Yes, because the compiler still parses it.		##
 basicFunction "Func Fact: arguments are also called parameters"
-## Call it again, because yacan                         ##
+## Call it again, because yacan						 	##
 basicFunction "Fun, basically... O_o"
 ## And for good measure, call it again, w/o parameters  ##
 basicFunction
