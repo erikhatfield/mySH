@@ -24,7 +24,7 @@ com.apple.Safari
 # Output defaults to filename with date and time designation
 FILENAME_FOR_DEFAULTS='read_'$(date +"%m%d%y")'_'$(date +'%H%M')'.txt'
 defaults read > $home_path/Dev/defaults/$FILENAME_FOR_DEFAULTS
-# remove previous txts (if they exist)
+# remove previous txt (if it exists)
 rm -rf $home_path/Dev/defaults/previous.txt
 # save new previous (if compare exists)
 mv $home_path/Dev/defaults/compare.txt $home_path/Dev/defaults/previous.txt
