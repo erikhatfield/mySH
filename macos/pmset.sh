@@ -18,6 +18,8 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 who_i_is=$(who am i | awk '{print $1}')
 home_path="$HOME"
 
+echo "who="$who_i_is" and home_path="$home_path
+
 ############################################################################
 # PMSET                                                                    #
 # % pmset -g #get current settings                                         #
@@ -41,6 +43,8 @@ sudo pmset -a womp 0
 sudo pmset -a powernap 0
 
 #proximitywake - On supported systems, this option controls system wake from sleep based on proximity of devices using same iCloud id. (value = 0/1)
+sudo pmset -a proximitywake 0
+
 #autorestart - automatic restart on power loss (value = 0/1)
 #lidwake - wake the machine when the laptop lid (or clamshell) is opened (value = 0/1)
 #acwake - wake the machine when power source (AC/battery) is changed (value = 0/1)
@@ -62,7 +66,6 @@ sudo pmset -a autopoweroff 0
 #destroyfvkeyonstandby - Destroy File Vault Key when going to standby mode. By default File vault keys are retained even when system goes to standby. If the keys are destroyed, user will be prompted to enter the password while coming out of standby mode.(value: 1 - Destroy, 0 - Retain)
 
 
-# not in manual...
 # Set standby delay to 11 hours (default is 1 hour)
 sudo pmset -a standbydelay 67000
 
@@ -84,6 +87,19 @@ sudo pmset -a standbydelay 67000
 # Disable Automatic sleep mode
 sudo systemsetup -setcomputersleep Off > /dev/null
 
+if (( $1 == "elhbp" )); then
+	echo "Portable"
+	echo
+	sudo pmset -a acwake 0
+	sudo pmset -a lidwake 0
+	sudo pmset -a autorestart 0 # - automatic restart on power loss (value = 0/1)
+	sudo pmset -a lessbright 1 #- slightly turn down display brightness when switching to this power source (value = 0/1)
+	#sms - use Sudden Motion Sensor to park disk heads on sudden changes in G force (value = 0/1)
+
+else
+	echo "Cyclinder?"
+	echo
+fi
 
 ###############################################################################
 # Kill affected applications                                                  #
@@ -100,8 +116,7 @@ for app in "Activity Monitor" \
 	"Messages" \
 	"Photos" \
 	"Safari" \
-	"SystemUIServer" \
-	"Terminal"; do
+	"SystemUIServer"; do
 	killall "${app}" &> /dev/null
 done
 echo "Done. Note that some of these changes require a logout/restart to take effect."
