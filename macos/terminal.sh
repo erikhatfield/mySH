@@ -92,14 +92,15 @@ EOD
 #####################################################
 #####################################################
 
-
-# Set Homebrew as default theme in terminal
-defaults write com.apple.terminal 'Default Window Settings' -string "Hatsbrew";
-loadModifiedTerminalTheme "Hatsbrew"
 # Set MagicHat as secondary theme (start up theme)
 defaults write com.apple.terminal 'Startup Window Settings' -string "MagicHat";
 loadModifiedTerminalTheme "MagicHat"
 
+sleep 3
+
+# Set Homebrew as default theme in terminal
+defaults write com.apple.terminal 'Default Window Settings' -string "Hatsbrew";
+loadModifiedTerminalTheme "Hatsbrew"
 # Enable “focus follows mouse” for Terminal.app and all X11 apps
 # i.e. hover over a window and start typing in it without clicking first
 #defaults write com.apple.terminal FocusFollowsMouse -bool true
@@ -112,10 +113,14 @@ defaults write com.apple.terminal SecureKeyboardEntry -bool true
 # Disable the annoying line marks
 defaults write com.apple.Terminal ShowLineMarks -int 0
 
-
 ###############################################################################
 # Kill affected applications                                                  #
 ###############################################################################
+
+
+kill -SIGHUP SystemUIServer
+
+echo "Completing Terminal dot sh, now closing Terminal."
 
 for app in "Activity Monitor" \
 	"Address Book" \
@@ -132,4 +137,5 @@ for app in "Activity Monitor" \
 	"Terminal"; do
 	killall "${app}" &> /dev/null
 done
-echo "Done. Note that some of these changes require a logout/restart to take effect."
+
+exit
