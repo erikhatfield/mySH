@@ -6,8 +6,8 @@
 #% chmod u+x basics_first.sh
 #% sh ./basics_first.sh "the data passed into this shell script."
 
-FIRST_ARGUMENT="${1?parameter missing - include an arguement when running this shell.}"
-echo "The programming definition of an 'argument' is $FIRST_ARGUMENT!"
+FIRST_ARGUMENT="${1?basic parameter missing - include an arguement when running this shell.}"
+echo "The basic programming definition of an 'argument' is $FIRST_ARGUMENT!"
 echo
 echo
 ############################
