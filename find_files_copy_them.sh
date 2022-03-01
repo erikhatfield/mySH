@@ -51,8 +51,8 @@ SEARCH_PATH="${2:-.}"  # If arguement $2 not provided, set it to the current dir
 #############################
 ## Make arraignments for disk usage (temporary)
 ## create a temp dir on the Desktop, using today's date
-date_temp_dir=$home_path'/Desktop/temp'$(date +"%m%d%y")
-mkdir $date_temp_dir
+date_temp_dir=$home_path'/Desktop/TEMPYMCTEMPSTERFACE/temp'$(date +"%m%d%y")
+mkdir -p $date_temp_dir
 
 ## Save the current hour hh and minutes mm and ss
 date_temp_time=$(date +"%H%M%S")
