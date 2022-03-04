@@ -10,8 +10,27 @@ sudo -v
 # Keep-alive: update existing 'sudo' time stamp until sh(es) has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
+# establish user para
+who_i_is=$(who am i | awk '{print $1}')
+home_path="$HOME"
+
 ###############################################################################
-# Safari & WebKit                                                             #
+# Log defaults before changes                                                 #
+###############################################################################
+
+# Make dir for output of defaults (should exist tho)
+mkdir -p $home_path/Dev/defaults/safari
+
+# Output defaults to filename with date and time designation
+FILENAME_FOR_DEFAULTS='safari_'$(date +"%m%d%y")'_'$(date +'%H%M')'.txt'
+defaults read com.apple.Safari > $home_path/Dev/defaults/safari/$FILENAME_FOR_DEFAULTS
+# remove previous txt (if it exists)
+rm -rf $home_path/Dev/defaults/safari/prev.txt
+# save new previous defaults
+cp -a $home_path/Dev/defaults/safari/$FILENAME_FOR_DEFAULTS $home_path/Dev/defaults/safari/prev.txt
+
+###############################################################################
+# Safari DEFAULTS                                                             #
 ###############################################################################
 
 # Privacy: don’t send search queries to Apple
@@ -42,8 +61,8 @@ defaults write com.apple.Safari ExtensionsEnabled -bool false
 # Prevent Safari from opening ‘safe’ files automatically after downloading
 defaults write com.apple.Safari AutoOpenSafeDownloads -bool false
 
-# Allow hitting the Backspace key to go to the previous page in history
-##defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2BackspaceKeyNavigationEnabled -bool true
+# disallow hitting the Backspace key to go to the previous page in history
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2BackspaceKeyNavigationEnabled -bool false
 
 # Hide Safari’s bookmarks bar by default
 defaults write com.apple.Safari ShowFavoritesBar -bool false
@@ -82,7 +101,7 @@ defaults write com.apple.Safari AutoFillPasswords -bool false
 defaults write com.apple.Safari AutoFillCreditCardData -bool false
 defaults write com.apple.Safari AutoFillMiscellaneousForms -bool false
 
-# Warn about fraudulent websites
+# Do not warn about fraudulent websites
 defaults write com.apple.Safari WarnAboutFraudulentWebsites -bool false
 
 # Disable plug-ins
@@ -91,10 +110,12 @@ defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebK
 
 # Disable Java
 defaults write com.apple.Safari WebKitJavaEnabled -bool false
+defaults write com.apple.Safari WebKitPreferences.javaEnabled -bool false
 defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabled -bool false
 
 # Block pop-up windows
 defaults write com.apple.Safari WebKitJavaScriptCanOpenWindowsAutomatically -bool false
+#defaults write com.apple.Safari WebKitPreferences.javaScriptCanOpenWindowsAutomatically -bool false
 defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically -bool false
 
 # Disable auto-playing video
@@ -102,6 +123,15 @@ defaults write com.apple.Safari WebKitMediaPlaybackAllowsInline -bool false
 defaults write com.apple.SafariTechnologyPreview WebKitMediaPlaybackAllowsInline -bool false
 defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2AllowsInlineMediaPlayback -bool false
 defaults write com.apple.SafariTechnologyPreview com.apple.Safari.ContentPageGroupIdentifier.WebKit2AllowsInlineMediaPlayback -bool false
+
+# Disable fullscreen for webkit
+defaults write com.apple.Safari WebKitPreferences.fullScreenEnabled -bool false
+
+# observe 
+defaults write com.apple.Safari WebKitPreferences.aggressiveTileRetentionEnabled -bool false
+
+# Disable telephone sniffing and hyperlinktoapp 
+defaults write com.apple.Safari WebKitPreferences.telephoneNumberDetectionIsEnabled -bool false
 
 # Enable “Do Not Track”
 defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true
@@ -115,8 +145,8 @@ defaults write com.apple.Safari PreloadTopHit -bool false
 # do not allow push notifications prompt
 defaults write com.apple.Safari CanPromptForPushNotifications -bool false
 
-# check for world leaks on all builds, prevents falling asleep at the wheel
-defaults write com.apple.Safari WorldLeakCheckingPolicy -int 2
+# check for world leaks on all builds, prevents falling asleep at the wheel (1 vs 2?)
+defaults write com.apple.Safari WorldLeakCheckingPolicy -int 1
 
 # set Remove download list items to manual
 defaults write com.apple.Safari DownloadsClearingPolicy -bool false
@@ -135,17 +165,38 @@ defaults write com.apple.Safari ShowFavoritesUnderSmartSearchField -bool false
 ###############################################################################
 
 for app in "Activity Monitor" \
-	"Address Book" \
 	"Calendar" \
 	"cfprefsd" \
 	"Contacts" \
 	"Dock" \
 	"Finder" \
-	"Mail" \
-	"Messages" \
-	"Photos" \
 	"Safari" \
 	"SystemUIServer"; do
 	killall "${app}" &> /dev/null
 done
+
+###############################################################################
+# Log defaults after changes                                                  #
+###############################################################################
+
+# remove old latest 
+rm -rf $home_path/Dev/defaults/safari/latest.txt
+# write new safari defaults read latest.txt for git/diff
+defaults read com.apple.Safari > $home_path/Dev/defaults/safari/latest.txt
+
+# diff
+echo 'for safari diff use: '
+echo 'diff --side-by-side --suppress-common-lines '$home_path'/Dev/defaults/safari/prev.txt '$home_path'/Dev/defaults/safari/latest.txt'
+echo ''
+echo 'safari defaults recent diff:'
+echo '.'
+sleep 1
+echo '..'
+sleep 1
+echo '...'
+sleep 1
+echo ''
+
+diff --side-by-side --suppress-common-lines $home_path/Dev/defaults/safari/prev.txt $home_path/Dev/defaults/safari/latest.txt
+
 echo "Safari.sh completed."
