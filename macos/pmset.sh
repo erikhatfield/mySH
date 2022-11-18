@@ -26,16 +26,13 @@ echo "who="$who_i_is" and home_path="$home_path
 ############################################################################
 
 #displaysleep - display sleep timer; value in minutes, or 0 to disable
-sudo pmset -a displaysleep 360
+sudo pmset -a displaysleep 15
 
 #disksleep - disk spindown timer; value in minutes, or 0 to disablelocal
 sudo pmset -a disksleep 180
 
 #sleep - system sleep timer (value in minutes, or 0 to disable)
 sudo pmset -a sleep 0
-
-#womp - wake on ethernet magic packet (value = 0/1). Same as "Wake for network access" in the Energy Saver preferences.
-sudo pmset -a womp 0
 
 #ring - wake on modem ring (value = 0/1)
 
@@ -67,7 +64,7 @@ sudo pmset -a autopoweroff 0
 
 
 # Set standby delay to 11 hours (default is 1 hour)
-sudo pmset -a standbydelay 67000
+#sudo pmset -a standbydelay 67000
 
 #for laptop
 # disable sleep for -c charger
@@ -80,15 +77,16 @@ sudo pmset -a standbydelay 67000
 
 
 # enable Destroy File Vault Key when going to standby mode.
-#######sudo pmset -a destroyfvkeyonstandby 1
+sudo pmset -a destroyfvkeyonstandby 1
 
 
 
 # Disable Automatic sleep mode
 sudo systemsetup -setcomputersleep Off > /dev/null
 
-if (( $1 == "elhbp" )); then
-	echo "Portable"
+if [ $1 = "elhbp" ]; then
+	echo "PMset: Portable (elhbp)"
+	sleep 3
 	echo
 	sudo pmset -a acwake 0
 	sudo pmset -a lidwake 0
@@ -96,9 +94,17 @@ if (( $1 == "elhbp" )); then
 	sudo pmset -a lessbright 1 #- slightly turn down display brightness when switching to this power source (value = 0/1)
 	#sms - use Sudden Motion Sensor to park disk heads on sudden changes in G force (value = 0/1)
 
+	#womp - wake on ethernet magic packet (value = 0/1). Same as "Wake for network access" in the Energy Saver preferences.
+	sudo pmset -a womp 0
+
 else
-	echo "Cyclinder?"
+	echo "PMset: Cylinder"
+	sleep 3
 	echo
+
+	#womp - wake on ethernet magic packet (value = 0/1). Same as "Wake for network access" in the Energy Saver preferences.
+	sudo pmset -a womp 1
+	sudo pmset -a autorestart 1
 fi
 
 ###############################################################################
@@ -119,4 +125,4 @@ for app in "Activity Monitor" \
 	"SystemUIServer"; do
 	killall "${app}" &> /dev/null
 done
-echo "Done. Note that some of these changes require a logout/restart to take effect."
+echo "PMset [[$1]] Fin."

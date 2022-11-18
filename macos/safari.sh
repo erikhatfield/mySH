@@ -54,6 +54,11 @@ defaults write com.apple.Safari NewWindowBehavior -int 1
 # Set downloads path to "~/Downloads/safari"
 mkdir -p ~/Downloads/safari
 defaults write com.apple.Safari DownloadsPath -string "~/Downloads/safari"
+# ignore path and always ask where to save DLs
+defaults write com.apple.Safari AlwaysPromptForDownloadFolder -bool true
+defaults write com.apple.Safari.SandboxBroker AlwaysPromptForDownloadFolder -bool true
+#defaults write com.apple.Safari.SandboxBroker DidMigrateDownloadFolderToSandbox -bool true
+# ?
 
 # Disable extensions
 defaults write com.apple.Safari ExtensionsEnabled -bool false
@@ -127,10 +132,10 @@ defaults write com.apple.SafariTechnologyPreview com.apple.Safari.ContentPageGro
 # Disable fullscreen for webkit
 defaults write com.apple.Safari WebKitPreferences.fullScreenEnabled -bool false
 
-# observe 
+# observe
 defaults write com.apple.Safari WebKitPreferences.aggressiveTileRetentionEnabled -bool false
 
-# Disable telephone sniffing and hyperlinktoapp 
+# Disable telephone sniffing and hyperlinktoapp
 defaults write com.apple.Safari WebKitPreferences.telephoneNumberDetectionIsEnabled -bool false
 
 # Enable “Do Not Track”
@@ -161,6 +166,32 @@ defaults write com.apple.Safari SearchProviderIdentifier -string "com.duckduckgo
 defaults write com.apple.Safari ShowFavoritesUnderSmartSearchField -bool false
 
 ###############################################################################
+# DUMP (organize me)
+defaults write com.apple.Safari "WebKitPreferences.defaultTextEncodingName" -string "utf-8"
+defaults write com.apple.Safari WebKitPreferences.applePayEnabled -bool false
+defaults write com.apple.Safari WebKitPreferences.allowsPictureInPictureMediaPlayback -bool false
+defaults write com.apple.Safari WebKitPreferences.allowsInlineMediaPlayback -bool false
+#qoutes or nah? also what is this? 
+defaults write com.apple.Safari "WebKitPreferences.aggressiveTileRetentionEnabled" -bool false
+defaults write com.apple.Safari WebKitPreferences.aggressiveTileRetentionEnabled -bool false
+defaults write com.apple.Safari ExtensionsEnabled -bool false
+defaults write com.apple.Safari CommandClickMakesTabs -bool false
+defaults write com.apple.Safari Command1Through9SwitchesTabs -bool false
+defaults write com.apple.Safari "WebKitPreferences.javaScriptCanOpenWindowsAutomatically" -bool false
+#defaults write com.apple.Safari WebKitPreferences.diagnosticLoggingEnabled -bool false
+#defaults write com.apple.Safari WebKitPreferences.dnsPrefetchingEnabled -bool false 
+defaults write com.apple.Safari WebKitPreferences.fullScreenEnabled -bool false
+defaults write com.apple.Safari WebKitPreferences.invisibleMediaAutoplayNotPermitted -bool true
+#defaults write com.apple.Safari WebKitPreferences.javaEnabled -bool false
+#defaults write com.apple.Safari WebKitPreferences.hiddenPageDOMTimerThrottlingAutoIncreases -bool false
+defaults write com.apple.Safari WebKitPreferences.javaScriptCanOpenWindowsAutomatically -bool false
+
+
+#####################################################################
+#???????????????????????????????????????????????????????????????????#
+defaults write com.apple.Safari WorldLeakCheckingPolicy -int 1
+
+###############################################################################
 # Kill affected applications                                                  #
 ###############################################################################
 
@@ -179,7 +210,7 @@ done
 # Log defaults after changes                                                  #
 ###############################################################################
 
-# remove old latest 
+# remove old latest
 rm -rf $home_path/Dev/defaults/safari/latest.txt
 # write new safari defaults read latest.txt for git/diff
 defaults read com.apple.Safari > $home_path/Dev/defaults/safari/latest.txt
@@ -199,4 +230,4 @@ echo ''
 
 diff --side-by-side --suppress-common-lines $home_path/Dev/defaults/safari/prev.txt $home_path/Dev/defaults/safari/latest.txt
 
-echo "Safari.sh completed."
+echo "Safari.sh Fin."

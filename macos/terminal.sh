@@ -17,8 +17,6 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 #who am i | awk '{print $1}' #works with sudo
 who_i_is=$(who am i | awk '{print $1}')
 home_path="$HOME"
-
-# (1) prompt user, and read command line argument
 echo "who='$who_i_is'"
 echo "home_path='$home_path'"
 echo
@@ -29,6 +27,16 @@ echo
 
 # Only use UTF-8 in Terminal.app
 defaults write com.apple.terminal StringEncodings -array 4
+
+
+# (1) prompt user, and read command line argument
+read -p "run apple script terminal re skinner? " answer
+
+# (2) handle the command line argument we were given
+while true
+do
+  case $answer in
+   [yY]* ) echo "yY entered."
 
 
 #####################################################
@@ -93,14 +101,25 @@ EOD
 #####################################################
 
 # Set MagicHat as secondary theme (start up theme)
-defaults write com.apple.terminal 'Startup Window Settings' -string "MagicHat";
-loadModifiedTerminalTheme "MagicHat"
+defaults write com.apple.terminal 'Startup Window Settings' -string "ActionHat";
+loadModifiedTerminalTheme "ActionHat"
 
 sleep 3
 
+      break;;
+   [nN]* ) echo "no name being set then... " #exit;;
+      break;;
+   * )     echo "Y or N input required, good sir."; break ;;
+  esac
+done
+
+
+
+
+
 # Set Homebrew as default theme in terminal
-defaults write com.apple.terminal 'Default Window Settings' -string "Hatsbrew";
-loadModifiedTerminalTheme "Hatsbrew"
+defaults write com.apple.terminal 'Default Window Settings' -string "MagicHat";
+loadModifiedTerminalTheme "MagicHat"
 # Enable “focus follows mouse” for Terminal.app and all X11 apps
 # i.e. hover over a window and start typing in it without clicking first
 #defaults write com.apple.terminal FocusFollowsMouse -bool true

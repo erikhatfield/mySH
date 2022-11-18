@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#!/bin/sh
+##/usr/bin/env bash
 
 ###############################################################################
 ### Trim MACOS installation (after fresh install or updates )				###
@@ -38,7 +39,16 @@ osx_version=$(echo "$osx_version" | awk -F"[.]*"  '{print $2}')
 
 if (( $osx_version <= 14 )); then
 			# Mojave or earlier
-			echo "trim notta -update me"
+			echo "MOJAVETRIMSKIS" && echo && sleep 2
+			sudo rm -rf /Applications/News.app 
+			sudo rm -rf /Applications/Siri.app 
+			sudo rm -rf /Applications/Time\ Machine.app 
+			sudo rm -rf /Applications/Utilities/Migration\ Assistant.app 
+			sudo rm -rf /Applications/Utilities/Boot\ Camp\ Assistant.app 
+			#sudo rm -rf 
+			#sudo rm -rf 
+			#sudo rm -rf 
+			#sudo rm -rf 
 else
 			# Catalina or later
 			sudo mount -uw /
@@ -52,8 +62,8 @@ else
 			sudo rm -rf /System/Applications/TV.app
 			sudo rm -rf $home_path/Movies/TV
 
-			sudo rm -rf /System/Applications/TextEdit.app
-			#sudo rm -rf /System/Applications/Utilities/Boot\ Camp\ Assistant.app
+			#sudo rm -rf /System/Applications/TextEdit.app
+			sudo rm -rf /System/Applications/Utilities/Boot\ Camp\ Assistant.app
 			sudo rm -rf /System/Applications/Utilities/Migration\ Assistant.app
 fi
 
