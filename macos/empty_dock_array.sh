@@ -1,25 +1,4 @@
-#!/usr/bin/env bash
-
-# Close any open System Preferences panes, to prevent them from overriding
-# settings we’re about to change
-osascript -e 'tell application "System Preferences" to quit'
-
-# Ask for the administrator password upfront
-sudo -v
-
-# Keep-alive: update existing `sudo` time stamp until `.macos` has finished
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
-
-###############################################################################
-# SETUP username and paths and check                                          #
-###############################################################################
-
-#who am i | awk '{print $1}' #works with sudo
-who_i_is=$(who am i | awk '{print $1}')
-home_path="$HOME"
-echo "who='$who_i_is'"
-echo "home_path='$home_path'"
-echo
+#!/bin/sh
 
 ###############################################################################
 # some misc dock stuff  ...                                                   #
@@ -50,16 +29,16 @@ do
 
 	#####################################################
 	#######################################################
-	
+
 	# Wipe all (default) app icons from the Dock
 	defaults write com.apple.dock persistent-apps -array
 
 	# Show only open applications in the Dock
 	#defaults write com.apple.dock static-only -bool true
-	
+
 	#######################################################
 	#####################################################
-	
+
 	sleep 1
 
       break;;
@@ -70,14 +49,16 @@ do
   esac
 done
 
+
 ###############################################################################
 # Kill affected applications                                                  #
 ###############################################################################
 
+#what is -SIGHUP...?
+#kill -SIGHUP SystemUIServer
+kill SystemUIServer
 
-kill -SIGHUP SystemUIServer
-
-echo "DOCK IS NOW EMPTY, SIR!"
+echo "DOCK IS NOW EMPTYING, SIR!"
 
 for app in "Activity Monitor" \
 	"cfprefsd" \
@@ -89,5 +70,10 @@ done
 echo "dock emptied"
 
 sleep 1
+
+#add launchpad to dock
+open /System/Applications/
+echo "hit enter when LaunchPad added to dock"
+read waitforenter
 
 exit
