@@ -1,46 +1,35 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-# Close any open System Preferences panes, to prevent them from overriding
-# settings we’re about to change
+# Close any open System Preferences panes, to prevent them from overwriting our changes
 osascript -e 'tell application "System Preferences" to quit'
 
-# Ask for the administrator password upfront
+# Ask for the admin password upfront
 sudo -v
 
-# Keep-alive: update existing 'sudo' time stamp until sh(es) has finished
+# Keep-alive: update existing 'sudo' time stamp until finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 ###############################################################################
 # SETUP username and paths and check                                          #
 ###############################################################################
+#store username in variable for dynamicness. $id -un <=> $whoami
+whoamilol="$(id -un)"
 
 #who am i | awk '{print $1}' #works with sudo
 wh0is=$(who am i | awk '{print $1}')
 home_path="$HOME"
 
-# (1) prompt user, and read command line argument
-  read -p "Writing with who='$wh0is', and home_path='$home_path', is this correct sir? " answer
-
-  # (2) handle the command line argument we were given
-  while true
-  do
-    case $answer in
-     [yY]* ) #very well, carry on
-        break;;
-
-     [nN]* ) exit;;
-
-     * )     echo "Y or N input required, good sir."; break ;;
-    esac
-  done
+# confirm correct
+read -p "whoamilol= '$whoamilol' and who='$wh0is', and home_path='$home_path', enter to continue, ctrl-c to exit." wait4answer
 
 ###############################################################################
 # SANDBOX                                                                     #
 ###############################################################################
 
 
+
 ###############################################################################
-# Kill affected applications                                                  #
+# SANDBOX                                                                     #
 ###############################################################################
 
 for app in "Activity Monitor" \
@@ -54,8 +43,12 @@ for app in "Activity Monitor" \
 	"Messages" \
 	"Photos" \
 	"Safari" \
-	"SystemUIServer" \
-	"Terminal"; do
+	"SystemUIServer"; do
 	killall "${app}" &> /dev/null
 done
-echo "Done. Note that some of these changes require a logout/restart to take effect."
+
+kill -SIGHUP SystemUIServer
+
+echo "Done."
+
+exit
