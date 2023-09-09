@@ -21,7 +21,9 @@ cd $relative_dir && pwd
 
 ##BRANCHES
 ##########
-
+##
+##############
+#list branches
 echo "git branch -r. Lists all the remote branches."
 git branch -r
 echo && sleep 1 && echo && sleep 1
@@ -38,9 +40,22 @@ echo && sleep 1 && echo && sleep 1
 #remote_name is?
 #echo && sleep 1 && echo && sleep 1
 
-echo "git branch -a. Shows all the local and remote branches."
+echo "git branch -a. Shows all the local and remote ranches"
 git branch -a
 echo && sleep 1 && echo && sleep 1
 
 
+echo "git fetch --prune. Cleansup ghost branch refs"
+git fetch --prune
+echo && sleep 1 && echo && sleep 1
 
+
+echo "git branch -a -v. Shows all with added -v for verbose mode to show commit messages"
+git branch -a -v
+echo && sleep 1 && echo && sleep 1
+
+
+##
+#######################
+#create fleeting branch
+#next... 
