@@ -1,4 +1,13 @@
-#!/usr/bin/env bash
+#!/bin/sh
+
+# Close any open System Preferences panes, to prevent them from overwriting our changes
+osascript -e 'tell application "System Preferences" to quit'
+
+# Ask for the admin password upfront
+sudo -v
+
+# Keep-alive: update existing 'sudo' time stamp until finished
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 ###############################################################################
 # SETUP username and paths                                                    #
@@ -39,4 +48,4 @@ echo "..."
 sleep 2
 #diff -Iy $home_path/Dev/defaults/previous.txt $home_path/Dev/defaults/compare.txt
 diff --side-by-side --suppress-common-lines $home_path/Dev/defaults/previous.txt $home_path/Dev/defaults/compare.txt
-sleep 5
+sleep 3

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
@@ -29,7 +29,7 @@ echo "who="$who_i_is" and home_path="$home_path
 sudo pmset -a displaysleep 15
 
 #disksleep - disk spindown timer; value in minutes, or 0 to disablelocal
-sudo pmset -a disksleep 180
+sudo pmset -a disksleep 0
 
 #sleep - system sleep timer (value in minutes, or 0 to disable)
 sudo pmset -a sleep 0
@@ -41,13 +41,6 @@ sudo pmset -a powernap 0
 
 #proximitywake - On supported systems, this option controls system wake from sleep based on proximity of devices using same iCloud id. (value = 0/1)
 sudo pmset -a proximitywake 0
-
-#autorestart - automatic restart on power loss (value = 0/1)
-#lidwake - wake the machine when the laptop lid (or clamshell) is opened (value = 0/1)
-#acwake - wake the machine when power source (AC/battery) is changed (value = 0/1)
-#lessbright - slightly turn down display brightness when switching to this power source (value = 0/1)
-#halfdim - display sleep will use an intermediate half-brightness state between full brightness and fully off  (value = 0/1)
-sudo pmset -a halfdim 1
 
 #sms - use Sudden Motion Sensor to park disk heads on sudden changes in G force (value = 0/1)
 
@@ -86,12 +79,16 @@ sudo systemsetup -setcomputersleep Off > /dev/null
 
 if [ $1 = "elhbp" ]; then
 	echo "PMset: Portable (elhbp)"
-	sleep 3
-	echo
+	#autorestart - automatic restart on power loss (value = 0/1)
+	#lidwake - wake the machine when the laptop lid (or clamshell) is opened (value = 0/1)
+	#acwake - wake the machine when power source (AC/battery) is changed (value = 0/1)
+	#lessbright - slightly turn down display brightness when switching to this power source (value = 0/1)
+	#halfdim - display sleep will use an intermediate half-brightness state between full brightness and fully off  (value = 0/1)
+	sudo pmset -a halfdim 1
 	sudo pmset -a acwake 0
 	sudo pmset -a lidwake 0
 	sudo pmset -a autorestart 0 # - automatic restart on power loss (value = 0/1)
-	sudo pmset -a lessbright 1 #- slightly turn down display brightness when switching to this power source (value = 0/1)
+	sudo pmset -a lessbright 0 #- slightly turn down display brightness when switching to this power source (value = 0/1)
 	#sms - use Sudden Motion Sensor to park disk heads on sudden changes in G force (value = 0/1)
 
 	#womp - wake on ethernet magic packet (value = 0/1). Same as "Wake for network access" in the Energy Saver preferences.
@@ -99,13 +96,27 @@ if [ $1 = "elhbp" ]; then
 
 else
 	echo "PMset: Cylinder"
-	sleep 3
 	echo
-
 	#womp - wake on ethernet magic packet (value = 0/1). Same as "Wake for network access" in the Energy Saver preferences.
-	sudo pmset -a womp 1
+	#sudo pmset -a womp 1
+	sudo pmset -a womp 0
 	sudo pmset -a autorestart 1
 fi
+
+#nist screen lock stuff?
+#nist macos sec?
+##############################################################################
+# Screensaver//NIST                                                          #
+##############################################################################
+
+#doesnt work since High Sierra?
+##defaults write com.apple.screensaver askForPassword -int 1
+##defaults write com.apple.screensaver askForPasswordDelay -int 0
+##defaults -currentHost write com.apple.screensaver idleTime 900
+##defaults write com.apple.screensaver idleTime -int 900
+
+#works
+##sysadminctl -screenLock immediate -password -
 
 ###############################################################################
 # Kill affected applications                                                  #
