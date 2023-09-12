@@ -31,5 +31,17 @@ else
 			echo ""
 fi
 
+###############
+# check whereis
+whereistimbuckii=$(whereis timbuckii)
+
+if [ "$whereistimbuckii" = "timbuckii:" ]; then 
+    echo "Sir, Tim Buck who sir?"
+else
+    echo $whereistimbuckii  
+fi;
+
+
+#####
 #exit
 exit
