@@ -1,64 +1,68 @@
 #!/bin/bash
 is_wet=true
+echo "in wet mode, is_wet="$is_wet
 
+# Ask for the admin password upfront
+sudo -v
+
+# Keep-alive: update existing 'sudo' time stamp until finished
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+#####################
+##example %sh /path-to-the-shell/goodbye_files.sh "/path-to/traverse-and/delete/files"
+## takes a long time, because for each hash in the file it traverses the entire tree... EACH TIME/EACH HASH!
+## 
 ###################
-## Work in progress
 ##
-## bite size chunks
-##
+realpath() {
+    [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
+}
+relative_path=$(realpath "$0")
+relative_dir=$(dirname $relative_path)
+echo $relative_dir
 
-###################
-## find and print the md5 sum of all files in the current directory tree. print out the checksum first, then the file path (as designated by the -r option)
-#find . -type f -exec md5 -r {} +
+###################################
+echo "To generate a blash-list.txt"
+echo "Use:"
+echo 'filepathskis="/the/file/to/delete.ext"'
+echo "% md5 -q \"\$filepathskis\" >> $relative_dir/blash-list.txt"
+echo
+echo 
 
-###################
-## find and print md5 checksums and filepaths of files with matching md5 checksum only (using grep)
-#find . -type f -exec md5 -r {} + | grep "eg1anmd5h4sh5tr5amp13101lolw00t"
-
-
-###################
-## Work in progress
-##
-## w00ttles here works with a pre-compiled list of file hashes of known deleteable files in my vast digital archivials.
-## for every line in blash-list txt, treat as string and search the dir tree of parametered dir path for files with md5 hash string that matches
+search_and_delete_file_path="$1"
+cd $search_and_delete_file_path
+echo "working in dir: "
+pwd
 
 while read -r blashline; do
 
+      echo "while loop in prog: "$blashline
       #printf %s "$blashline" | find . -type f -exec md5 -r {} + | grep "$blashline" | cut -d ' ' -f2- ;
-      filepath4operation=$(printf "%s" "$blashline" | find . -type f -exec md5 -r {} + | grep "$blashline" | cut -d ' ' -f2- )
+    filepath4operation=$(printf "%s" "$blashline" | find "$search_and_delete_file_path" -type f -exec md5 -r {} + | grep "$blashline" | cut -d ' ' -f2- )
+	#find "$search_and_delete_file_path" -type f -exec md5 -r '{}' \;
+	#find "$search_and_delete_file_path" -type f -exec md5 -r {} + | grep "$blashline" | cut -d ' ' -f2- ;
+    echo $filepath4operation
 
-      if [ -z "$filepath4operation" ]
+    if [ -z "$filepath4operation" ]
       then
+	  echo "nothing to do... next"
           #echo "\$filepath4operation is empty"
-          echo "No files with matching checksum were found. ((MD5=""$blashline""))"
+          #echo "No files with matching checksum were found. ((MD5=""$blashline""))"
       else
-          # Nested while loop handles multiple file paths
-          #
-          # Printf '%s\n' "$var" is necessary because printf '%s' "$var" on a
-          # variable that doesn't end with a newline then the while loop will
-          # completely miss the last line of the variable.
-          while IFS= read -r multiline
-          do
-
-            if [ "$is_wet" = true ] ; then
-              #WET
+	if [ "$is_wet" = true ] ; then
+              echo "WET"
               echo ""
               echo "################################################################################################"
               echo "# Removing file at path: ""$multiline""  ((MD5=""$blashline"")) "
               echo "################################################################################################"
               echo ""
-              rm -rf "$multiline"
+              sudo rm -rf "$filepath4operation"
             else
-              #DRY
-              ls -l "$multiline"
+              echo "DRY"
+              ls -ale "$filepath4operation"
             fi
-
-          done < <(printf '%s\n' "$filepath4operation")
-
       fi
-
-done < ~/Desktop/blash-list.txt
-
+done < $relative_dir/blash-list.txt
 
 ## To generate a blash-list.txt
 ## Use:
