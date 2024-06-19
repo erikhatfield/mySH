@@ -1,7 +1,18 @@
 #!/bin/bash
 is_wet=true
-echo "in wet mode, is_wet="$is_wet
-echo && sleep 1 && echo && sleep 1
+if [ "$is_wet" = true ] ; then
+	echo "in wet mode, is_wet = $is_wet"
+	echo && sleep 1 && echo && sleep 1
+	echo "* * * ctrl - c to abort * * *"
+	echo && sleep 1 && echo && sleep 1
+else
+	echo "DRY RUN ENABLED: is_wet = $is_wet"
+fi
+
+#####################
+##example %sh /path-to-the-shell/goodbye_files.sh "/path-to/traverse-and/delete/files"
+## 
+###################
 
 # Ask for the admin password upfront
 sudo -v
@@ -9,12 +20,8 @@ sudo -v
 # Keep-alive: update existing 'sudo' time stamp until finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
-#####################
-##example %sh /path-to-the-shell/goodbye_files.sh "/path-to/traverse-and/delete/files"
-## takes a long time, because for each hash in the file it traverses the entire tree... EACH TIME/EACH HASH!
-## 
-###################
-##
+######
+#######
 realpath() {
     [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
 }
@@ -28,7 +35,17 @@ echo "Use:"
 echo 'filepathskis="/the/file/to/delete.ext"'
 echo "% md5 -q \"\$filepathskis\" >> $relative_dir/blash-list.txt"
 echo
-echo 
+###################
+###prepend to blash
+#printf '%s\n%s\n' "$(md5 -q $filepathskis)" "$(cat $relative_dir/blash-list.txt)" > $relative_dir/blash-list.txt
+echo "OR to prepend to an existing blash-list.txt:"
+echo '% printf '\''%s\\n%s\\n'\'' "$(md5 -q $filepathskis)" "$(cat '"$relative_dir"'/blash-list.txt)" > '"$relative_dir"'/blash-list.txt'
+#actual line generated above (+ the relative dir part)
+#% printf '%s\n%s\n' "$(md5 -q $filepathskis)" "$(cat $relative_dir/blash-list.txt)" > $relative_dir/blash-list.txt
+##note: escaped single qoutes inside single qoutes => ' => '\''
+##note: escaped backslash => \ => \\
+echo
+
 
 #check for empty params
 if [ -z "$1" ]
@@ -69,7 +86,9 @@ checkFileAgainstAllHash () {
 				echo "MATCH FOUND ƒ $filepath2check"
 				echo "$hash4filepath2check == $blashline"
 				#
-				if [ "$is_wet" = true ] ; then
+				if [ "$3" = true ] ; then
+					echo '$is_wet = '"$3"
+					echo "removing file @"
 					rm -rfv "$filepath2check"
 				else
 					echo "DRY RUN ENABLED: moving on"
@@ -86,7 +105,7 @@ checkFileAgainstAllHash () {
 #export for use in find call
 export -f checkFileAgainstAllHash
 #
-find $search_and_delete_file_path -type f -exec bash -c 'checkFileAgainstAllHash "$0" '"$relative_dir/blash-list.txt" {} \;
+find $search_and_delete_file_path -type f -exec bash -c 'checkFileAgainstAllHash "$0" '"$relative_dir/blash-list.txt"' '"$is_wet" {} \;
 
 
 
