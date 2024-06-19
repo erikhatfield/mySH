@@ -1,6 +1,7 @@
 #!/bin/bash
 is_wet=true
 echo "in wet mode, is_wet="$is_wet
+echo && sleep 1 && echo && sleep 1
 
 # Ask for the admin password upfront
 sudo -v
@@ -29,11 +30,72 @@ echo "% md5 -q \"\$filepathskis\" >> $relative_dir/blash-list.txt"
 echo
 echo 
 
+#check for empty params
+if [ -z "$1" ]
+	then
+		echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *" && echo
+		echo "Safety check: requires first parameter containing directory path to operate within."
+		echo
+		echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *" && echo && echo
+		exit
+fi
 search_and_delete_file_path="$1"
 cd $search_and_delete_file_path
 echo "working in dir: "
 pwd
 
+
+################################################################
+###version 2
+###for each file check against all hash values in blashlist.txt ##only traverses tree once
+
+checkFileAgainstAllHash () {
+	#echo "file: $1"'
+	filepath2check="$1"
+	hash4filepath2check=$(md5 -q "$filepath2check")
+	#echo $hash4filepath2check
+	filepath4blashtxt="$2"
+	#echo $filepath4blashtxt
+	###########################
+	###for each md5 hash, check current file path
+	#echo "checking file @ $filepath2check against each line in $filepath4blashtxt"
+	while read -r blashline; do
+		#printf "%s" "$blashline"
+		#echo "while loop in prog: "$blashline
+		if [ "$hash4filepath2check" = "$blashline" ] ;
+			then
+				echo
+				echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *" && echo
+				echo "MATCH FOUND ƒ $filepath2check"
+				echo "$hash4filepath2check == $blashline"
+				#
+				if [ "$is_wet" = true ] ; then
+					rm -rfv "$filepath2check"
+				else
+					echo "DRY RUN ENABLED: moving on"
+				fi
+				#
+				echo
+				echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *" && echo
+		fi
+		##
+	done < $filepath4blashtxt
+}
+###END checkFileAgainstAllHash
+
+#export for use in find call
+export -f checkFileAgainstAllHash
+#
+find $search_and_delete_file_path -type f -exec bash -c 'checkFileAgainstAllHash "$0" '"$relative_dir/blash-list.txt" {} \;
+
+
+
+exit
+
+
+
+
+###for each md5 hash, travse and check each file in tree (version 1) ## too many traversals => slow
 while read -r blashline; do
 
       echo "while loop in prog: "$blashline
@@ -81,3 +143,5 @@ done < $relative_dir/blash-list.txt
 #awk '{printf "%s%s", NR-1 ? "|" : "", $1}' blash-list.txt will reformat this into a single line of pipe | separated hashes.
 #Use this variant of the original command to match hashes using regex rather than an exact string match:
 #find . -type f -exec md5 {} + | awk '$1 ~ "^('$(awk '{printf "%s%s", NR-1 ? "|" : "", $1}' hashes.txt)')$" {printf "%s\0", substr($0, 35)}' | xargs -r0 -n1
+echo
+exit
