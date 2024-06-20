@@ -45,6 +45,9 @@ echo '% printf '\''%s\\n%s\\n'\'' "$(md5 -q $filepathskis)" "$(cat '"$relative_d
 ##note: escaped single qoutes inside single qoutes => ' => '\''
 ##note: escaped backslash => \ => \\
 echo
+echo "OR use shell: goodbye_files+++generate_blashlist+from+multiple+files.sh"
+echo
+echo
 
 
 #check for empty params
