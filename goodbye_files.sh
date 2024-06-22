@@ -27,7 +27,8 @@ realpath() {
 }
 relative_path=$(realpath "$0")
 relative_dir=$(dirname $relative_path)
-echo $relative_dir
+#echo $relative_dir
+echo
 
 ###################################
 echo "To generate a blash-list.txt"
@@ -62,8 +63,15 @@ fi
 search_and_delete_file_path="$1"
 cd $search_and_delete_file_path
 echo "working in dir: "
-pwd
+pwd && echo
 
+#info about blash-list txt being used
+ACTIVE_BLASH_LIST="$relative_dir/blash-list.txt"
+echo
+echo "Using blash-list txt ƒ @ $ACTIVE_BLASH_LIST"
+echo "info:"
+wc $ACTIVE_BLASH_LIST
+echo && sleep 1 && echo && sleep 1
 
 ################################################################
 ###version 2
