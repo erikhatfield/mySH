@@ -11,7 +11,7 @@ fi
 
 #####################
 ##example %sh /path-to-the-shell/goodbye_files.sh "/path-to/traverse-and/delete/files"
-## 
+##VERSION: 2.0622.024.132617 
 ###################
 
 # Ask for the admin password upfront
