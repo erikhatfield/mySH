@@ -65,13 +65,79 @@ cd $search_and_delete_file_path
 echo "working in dir: "
 pwd && echo
 
-#info about blash-list txt being used
+#safety check 2: check for blash-list.txt
+if [ ! -f "$relative_dir/blash-list.txt" ]
+	then
+		echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *" && echo
+		echo "Safety check: requires blash-list.txt to operate."
+		echo
+		echo "Create blash-list.txt in: $relative_dir"
+		echo
+		echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *" && echo && echo
+		exit
+fi
 ACTIVE_BLASH_LIST="$relative_dir/blash-list.txt"
-echo
-echo "Using blash-list txt ƒ @ $ACTIVE_BLASH_LIST"
-echo "info:"
 wc $ACTIVE_BLASH_LIST
 echo && sleep 1 && echo && sleep 1
+
+################################################################
+###version 3
+###for each file check for hash value match in blashlist.txt ##only traverses tree once at most, and return if match is found
+
+checkForHashMatch () {
+	#echo "file: $1"'
+	filepath2check="$1"
+	hash4filepath2check=$(md5 -q "$filepath2check")
+	#echo $hash4filepath2check
+	filepath4blashtxt="$2"
+	#echo $filepath4blashtxt
+	###########################
+	###for each md5 hash, check current file path
+	#echo "checking file @ $filepath2check against each line in $filepath4blashtxt until match is found"
+	while read -r blashline; do
+		#printf "%s" "$blashline"
+		#echo "while loop in prog: "$blashline
+		if [ "$hash4filepath2check" = "$blashline" ] ;
+			then
+				echo
+				echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *" && echo
+				echo "MATCH FOUND ƒ $filepath2check"
+				echo "$hash4filepath2check == $blashline"
+				#
+				echo '$is_wet = '"$3"
+				if [ "$3" = true ] ; then
+					echo
+					echo "* * * * * * * * * * * * * * * * * * * *"
+					echo "* * * * * * * * * * * * * * * * * * * *" && echo
+					echo "removing file @"
+					rm -rfv "$filepath2check"
+					echo "* * * * * * * * * * * * * * * * * * * *"
+					echo "* * * * * * * * * * * * * * * * * * * *" && echo
+				else
+					echo "DRY RUN ENABLED: moving on"
+				fi
+				#
+				echo
+				echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *" && echo
+				#exit the while loop early since we found a match
+				break
+		fi
+		##
+	done < $filepath4blashtxt
+}
+###END checkForHashMatch
+
+#export for use in find call
+export -f checkForHashMatch
+#
+find $search_and_delete_file_path -type f -exec bash -c 'checkForHashMatch "$0" '"$ACTIVE_BLASH_LIST"' '"$is_wet" {} \;
+
+
+
+exit
+
+
+
 
 ################################################################
 ###version 2
