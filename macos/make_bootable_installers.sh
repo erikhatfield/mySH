@@ -40,7 +40,6 @@ if [ -d "/Applications/Install macOS Ventura.app" ]; then
 		sudo mdutil -X /Volumes/Install\ macOS\ Ventura
 
 		# Make it a brick, errr wait, I mean, make it readonly
-		sudo diskutil unmountDisk /Volumes/Install\ macOS\ Ventura
 		sudo chflags -R uchg,schg /Volumes/Install\ macOS\ Ventura
 
 		echo "Finished creating macOS Ventura bootable installer."
@@ -78,7 +77,6 @@ if [ -d "/Applications/Install macOS Sonoma.app" ]; then
 		sudo mdutil -X /Volumes/Install\ macOS\ Sonoma
 
 		# Make it readonly
-		sudo diskutil unmountDisk /Volumes/Install\ macOS\ Sonoma
 		sudo chflags -R uchg,schg /Volumes/Install\ macOS\ Sonoma
 
 		echo "Finished creating macOS Sonoma bootable installer."
