@@ -43,13 +43,51 @@ if [ -d "/Applications/Install macOS Ventura.app" ]; then
 		sudo diskutil unmountDisk /Volumes/Install\ macOS\ Ventura
 		sudo chflags -R uchg,schg /Volumes/Install\ macOS\ Ventura
 
+		echo "Finished creating macOS Ventura bootable installer."
 		#################################################
 		#################################################
 	else
-		## else, create /Volumes/MyVolume
 		echo "/Volumes/MyVolume does not exist."
 	fi
 else
 	echo "macOS Ventura installer not found in /Applications."
 fi
 
+# Sonoma
+if [ -d "/Applications/Install macOS Sonoma.app" ]; then
+	## if /Volumes/MyVol exists, proceed
+	if [ -d "/Volumes/MyVol" ]; then
+		#################################################
+		# Create Bootable Installer for macOS Sonoma	#
+		#################################################
+		echo "Creating bootable installer for macOS Sonoma..."
+		sudo /Applications/Install\ macOS\ Sonoma.app/Contents/Resources/createinstallmedia --volume /Volumes/MyVol --nointeraction
+
+		# If the USB ever refuses to show up in the boot picker, just re-bless it:
+		#sudo bless --folder /Volumes/Install\ macOS\ Sonoma/System/Library/CoreServices --bootefi
+
+		# Blessing info:
+		bless --info /Volumes/Install\ macOS\ Sonoma
+
+		# Disable spotlight indexing on the volume
+		sudo mdutil -i off /Volumes/Install\ macOS\ Sonoma
+		sudo mdutil -d /Volumes/Install\ macOS\ Sonoma
+
+		# Remove indexing directory and files
+		sudo rm -rf /Volumes/Install\ macOS\ Sonoma/.Spotlight-V100
+		sudo mdutil -X /Volumes/Install\ macOS\ Sonoma
+
+		# Make it readonly
+		sudo diskutil unmountDisk /Volumes/Install\ macOS\ Sonoma
+		sudo chflags -R uchg,schg /Volumes/Install\ macOS\ Sonoma
+
+		echo "Finished creating macOS Sonoma bootable installer."
+		#################################################
+		#################################################
+
+	else
+		echo "/Volumes/MyVol does not exist."
+	fi
+else
+	echo "macOS Sonoma installer not found in /Applications."
+fi
