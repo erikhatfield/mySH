@@ -10,20 +10,27 @@ sudo -v
 # Keep-alive: update existing `sudo` time stamp until `.macos` has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
-############################################################################
-# SETUP username and paths                                                 #
-############################################################################
-
-#who am i | awk '{print $1}' #works with sudo
-who_i_is=$(who am i | awk '{print $1}')
-home_path="$HOME"
-
-echo "who="$who_i_is" and home_path="$home_path
+system_profiler SPPowerDataType
+echo && sleep 1 && echo 
 
 ############################################################################
 # PMSET                                                                    #
-# % pmset -g #get current settings                                         #
 ############################################################################
+
+#get current settings for reference
+sudo pmset -g
+echo && sleep 1 && echo 
+
+#determine if this is a laptop or a desktop by checking if the battery is present
+if system_profiler SPPowerDataType | grep -q "Battery Information"; then
+	echo "This is a laptop" && echo
+	IS_BATTERY_PRESENT=1
+else
+	echo "This is a desktop" && echo
+	IS_BATTERY_PRESENT=0
+fi
+
+echo && sleep 1 && echo 
 
 #displaysleep - display sleep timer; value in minutes, or 0 to disable
 sudo pmset -a displaysleep 15
@@ -77,8 +84,10 @@ sudo pmset -a destroyfvkeyonstandby 1
 # Disable Automatic sleep mode
 sudo systemsetup -setcomputersleep Off > /dev/null
 
-if [ $1 = "elhbp" ]; then
-	echo "PMset: Portable (elhbp)"
+echo
+if [ $IS_BATTERY_PRESENT = 1 ]; then
+	echo "PMset: Portable (IS_BATTERY_PRESENT [√])" && echo
+	
 	#autorestart - automatic restart on power loss (value = 0/1)
 	#lidwake - wake the machine when the laptop lid (or clamshell) is opened (value = 0/1)
 	#acwake - wake the machine when power source (AC/battery) is changed (value = 0/1)
@@ -94,46 +103,16 @@ if [ $1 = "elhbp" ]; then
 	#womp - wake on ethernet magic packet (value = 0/1). Same as "Wake for network access" in the Energy Saver preferences.
 	sudo pmset -a womp 0
 
+	# Power button behavior
+	defaults write com.apple.loginwindow PowerButtonSleepsSystem -bool NO
 else
-	echo "PMset: Cylinder"
-	echo
+	echo "PMset: Desktop (IS_BATTERY_PRESENT [X]" && echo
+
 	#womp - wake on ethernet magic packet (value = 0/1). Same as "Wake for network access" in the Energy Saver preferences.
 	#sudo pmset -a womp 1
 	sudo pmset -a womp 0
 	sudo pmset -a autorestart 1
 fi
 
-#nist screen lock stuff?
-#nist macos sec?
-##############################################################################
-# Screensaver//NIST                                                          #
-##############################################################################
-
-#doesnt work since High Sierra?
-##defaults write com.apple.screensaver askForPassword -int 1
-##defaults write com.apple.screensaver askForPasswordDelay -int 0
-##defaults -currentHost write com.apple.screensaver idleTime 900
-##defaults write com.apple.screensaver idleTime -int 900
-
-#works
-##sysadminctl -screenLock immediate -password -
-
-###############################################################################
-# Kill affected applications                                                  #
-###############################################################################
-
-for app in "Activity Monitor" \
-	"Address Book" \
-	"Calendar" \
-	"cfprefsd" \
-	"Contacts" \
-	"Dock" \
-	"Finder" \
-	"Mail" \
-	"Messages" \
-	"Photos" \
-	"Safari" \
-	"SystemUIServer"; do
-	killall "${app}" &> /dev/null
-done
-echo "PMset [[$1]] Fin."
+echo ":::FINISHING::: $0" && echo
+exit

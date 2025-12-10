@@ -56,4 +56,19 @@ for app in "Activity Monitor" \
 	"SystemUIServer"; do
 	killall "${app}" &> /dev/null
 done
-echo "Date Time Formats conclusion."
+
+#################################################################################
+# read out defaults																#
+#################################################################################
+echo && echo
+defaults read com.apple.menuextra.clock
+echo && echo
+defaults read NSGlobalDomain AppleICUDateFormatStrings
+echo && echo
+defaults read NSGlobalDomain AppleICUTimeFormatStrings
+echo && echo
+
+echo "Date Time Formats conclusion." && echo
+
+echo ":::FINISHING::: $0" && echo
+exit

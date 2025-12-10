@@ -10,24 +10,11 @@ sudo -v
 # Keep-alive: update existing 'sudo' time stamp until sh(es) has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
-# establish user para
-who_i_is=$(who am i | awk '{print $1}')
-home_path="$HOME"
+#################################################################################
+# Echo current date stamp for some reason ?_?									#
+#################################################################################
 
-###############################################################################
-# Log defaults before changes                                                 #
-###############################################################################
-
-# Make dir for output of defaults (should exist tho)
-mkdir -p $home_path/Dev/defaults/safari
-
-# Output defaults to filename with date and time designation
-FILENAME_FOR_DEFAULTS='safari_'$(date +"%m%d%y")'_'$(date +'%H%M')'.txt'
-defaults read com.apple.Safari > $home_path/Dev/defaults/safari/$FILENAME_FOR_DEFAULTS
-# remove previous txt (if it exists)
-rm -rf $home_path/Dev/defaults/safari/prev.txt
-# save new previous defaults
-cp -a $home_path/Dev/defaults/safari/$FILENAME_FOR_DEFAULTS $home_path/Dev/defaults/safari/prev.txt
+echo $(date +"%m%d%y")'_'$(date +'%H%M')'.w00t'
 
 ###############################################################################
 # Safari DEFAULTS                                                             #
@@ -53,7 +40,7 @@ defaults write com.apple.Safari NewWindowBehavior -int 1
 
 # Set downloads path to "~/Downloads/safari"
 mkdir -p ~/Downloads/safari
-defaults write com.apple.Safari DownloadsPath -string "~/Downloads/safari"
+defaults write com.apple.Safari DownloadsPath -string "$HOME/Downloads/safari"
 # ignore path and always ask where to save DLs
 defaults write com.apple.Safari AlwaysPromptForDownloadFolder -bool true
 defaults write com.apple.Safari.SandboxBroker AlwaysPromptForDownloadFolder -bool true
@@ -206,28 +193,16 @@ for app in "Activity Monitor" \
 	killall "${app}" &> /dev/null
 done
 
-###############################################################################
-# Log defaults after changes                                                  #
-###############################################################################
+############################################################
+#diff --side-by-side --suppress-common-lines $HOME/Dev/defaults/safari/prev.txt $HOME/Dev/defaults/safari/latest.txt
+###########################################################
+#^^^ left over example of --side-by-side diff command ^^^#
 
-# remove old latest
-rm -rf $home_path/Dev/defaults/safari/latest.txt
-# write new safari defaults read latest.txt for git/diff
-defaults read com.apple.Safari > $home_path/Dev/defaults/safari/latest.txt
+echo && echo
+defaults read com.apple.Safari
+echo && sleep 1 && echo
+echo && sleep 1 && echo
 
-# diff
-echo 'for safari diff use: '
-echo 'diff --side-by-side --suppress-common-lines '$home_path'/Dev/defaults/safari/prev.txt '$home_path'/Dev/defaults/safari/latest.txt'
-echo ''
-echo 'safari defaults recent diff:'
-echo '.'
-sleep 1
-echo '..'
-sleep 1
-echo '...'
-sleep 1
-echo ''
 
-diff --side-by-side --suppress-common-lines $home_path/Dev/defaults/safari/prev.txt $home_path/Dev/defaults/safari/latest.txt
-
-echo "Safari.sh Fin."
+echo ":::FINISHING::: $0" && echo
+exit

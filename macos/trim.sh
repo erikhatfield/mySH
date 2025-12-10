@@ -23,7 +23,7 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 ###############################################################################
 
 #who am i | awk '{print $1}' #works with sudo
-who_i_is=$(who am i | awk '{print $1}')
+who_i_am=$(who am i | awk '{print $1}')
 home_path="$HOME"
 
 system_profiler SPSoftwareDataType
